@@ -1,32 +1,52 @@
 { config, pkgs, ... }:
 
 {
-  # Home Manager needs a bit of information about you and the paths it should
-  # manage.
   home.username = "thobui";
   home.homeDirectory = "/Users/thobui";
-  home.stateVersion = "24.11"; # Please read the comment before changing.
-  
+  home.stateVersion = "24.11"; 
   home.packages = [
-    ## Install Nerd Fonts
     pkgs.nerd-fonts.iosevka
-## --- Terminal ----------
-  pkgs.gh
-  pkgs.neovim
-  pkgs.lazygit
-  pkgs.fish
-  pkgs.alacritty
-  pkgs.tmux
+    pkgs.gh
+    pkgs.neovim
+    pkgs.lazygit
+    pkgs.fish
+    pkgs.alacritty
+    pkgs.tmux
+    pkgs.fzf
+    pkgs.eza
+    pkgs.yabai
+    pkgs.fnm
   ];
+programs.zsh = {
+# -- config terminal
+enable = true;
+initExtra = ''
+       if [[ $(ps -o command= -p "$PPID" | awk '{print $1}') != 'fish' ]]
+      then
+          exec fish -l
+      fi                       '';
 
-  
-
-  ## Program config
-  programs.gh.enable = true;
-  home.sessionVariables = {
-    # EDITOR = "emacs";
+};
+programs.fish = {
+	enable = true;
+	#-- plugins of fish
+	interactiveShellInit = ''
+	# Add fnm shell-fish env
+	fnm env --use-on-cd --shell fish | source
+	
+	'';
+};
+  # Symlink configuration for Alacritty
+  xdg.configFile = {
+    "alacritty" = {
+      source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/config/alacritty";
+      recursive = true;
+    };
   };
 
-  # Let Home Manager install and manage itself.
+  # Program configuration
+  programs.gh.enable = true;
+  
+  # Enable home-manager to manage itself
   programs.home-manager.enable = true;
 }
