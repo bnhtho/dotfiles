@@ -1,8 +1,8 @@
 { config, pkgs, ... }:
 
 {
-  home.username = "__USERNAME__"; # Placeholder for username
-  home.homeDirectory = "__HOMEDIR__"; # Placeholder for home directory
+  home.username = "thobui";
+  home.homeDirectory = "/Users/thobui";
   home.stateVersion = "24.11"; 
   home.packages = [
     pkgs.nerd-fonts.iosevka
@@ -15,33 +15,34 @@
     pkgs.fzf
     pkgs.eza
     pkgs.yabai
+# -- Fish
     pkgs.fnm
     pkgs.zoxide
+# --- Fast
   ];
 
   programs.zsh = {
     enable = true;
     initExtra = ''
-      if [[ $(ps -o command= -p "$PPID" | awk '{print $1}') != 'fish' ]]
-      then
-          exec fish -l
+      if [[ $(ps -o command= -p "$PPID" | awk '{print $1}') != 'fish' ]]; then
+        exec fish -l
       fi
     '';
   };
 
-  programs.fish = {
-    enable = true;
-    interactiveShellInit = ''
-      # Disable greetings line
-      set -g fish_greeting
-      # Add fnm shell-fish env
-      fnm env --use-on-cd --shell fish | source
-      # Add zoxide shell-fish env
-      zoxide init fish | source
-    '';
-  };
+## -- Fish
+programs.fish = {
+  enable = true;
+  plugins = []; # Leave this empty for manual installation
+  interactiveShellInit = ''
+    # Initialize other environments (fnm, zoxide)
+    fnm env --use-on-cd --shell fish | source
+    zoxide init fish | source
+  '';
+};
+## -- End fish  
 
-  programs.zoxide = {
+ programs.zoxide = {
     enable = true;
     enableFishIntegration = true;
   };
@@ -49,14 +50,14 @@
   # Symlink configuration for Alacritty
   xdg.configFile = {
     "alacritty" = {
-      source = config.lib.file.mkOutOfStoreSymlink "__HOMEDIR__/config/alacritty";
+      source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/config/alacritty";
       recursive = true;
     };
   };
 
   # Program configuration
   programs.gh.enable = true;
-
+  
   # Enable home-manager to manage itself
   programs.home-manager.enable = true;
 }
