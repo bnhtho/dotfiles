@@ -13,7 +13,7 @@ echo "Looking for home.nix at: $HOME_NIX_FILE"
 # Replace placeholders dynamically
 if [ -f "$HOME_NIX_FILE" ]; then
     echo "Updating $HOME_NIX_FILE with dynamic variables..."
-    sed -i.bak -e "s|__USERNAME__|$USERNAME|g" \
+    sed -i -e "s|__USERNAME__|$USERNAME|g" \
                -e "s|__HOMEDIR__|$HOMEDIR|g" \
                "$HOME_NIX_FILE"
     echo "Dynamic variables injected into $HOME_NIX_FILE."
