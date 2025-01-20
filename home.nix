@@ -32,6 +32,8 @@ programs.fish = {
 	enable = true;
 	#-- plugins of fish
 	interactiveShellInit = ''
+	# Disable greetings line
+	set -g fish_greeting
 	# Add fnm shell-fish env
 	fnm env --use-on-cd --shell fish | source
 	# Add zoxide shell-fish env
