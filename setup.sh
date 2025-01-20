@@ -1,2 +1,3 @@
 
-nix run home-manager home
+nix run home-manager switch
+
