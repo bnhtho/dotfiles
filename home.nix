@@ -16,6 +16,7 @@
     pkgs.eza
     pkgs.yabai
     pkgs.fnm
+    pkgs.zoxide
   ];
 programs.zsh = {
 # -- config terminal
@@ -33,8 +34,14 @@ programs.fish = {
 	interactiveShellInit = ''
 	# Add fnm shell-fish env
 	fnm env --use-on-cd --shell fish | source
-	
+	# Add zoxide shell-fish env
+        zoxide init fish | source
 	'';
+};
+# -- Zoxide
+programs.zoxide={
+enable = true;
+enableFishIntegration= true;
 };
   # Symlink configuration for Alacritty
   xdg.configFile = {
