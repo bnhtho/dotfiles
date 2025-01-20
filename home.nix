@@ -3,46 +3,26 @@
 {
   home.username = "thobui";
   home.homeDirectory = "/Users/thobui";
-  home.stateVersion = "24.11"; 
+  home.stateVersion = "24.11";
   home.packages = [
     pkgs.nerd-fonts.iosevka
     pkgs.gh
     pkgs.neovim
     pkgs.lazygit
-    pkgs.fish
     pkgs.alacritty
     pkgs.tmux
     pkgs.fzf
     pkgs.eza
     pkgs.yabai
-# -- Fish
     pkgs.fnm
     pkgs.zoxide
-# --- Fast
+    pkgs.fishPlugins.tide
+    # --- Fast
   ];
 
-  programs.zsh = {
-    enable = true;
-    initExtra = ''
-      if [[ $(ps -o command= -p "$PPID" | awk '{print $1}') != 'fish' ]]; then
-        exec fish -l
-      fi
-    '';
-  };
+  
 
-## -- Fish
-programs.fish = {
-  enable = true;
-  plugins = []; # Leave this empty for manual installation
-  interactiveShellInit = ''
-    # Initialize other environments (fnm, zoxide)
-    fnm env --use-on-cd --shell fish | source
-    zoxide init fish | source
-  '';
-};
-## -- End fish  
-
- programs.zoxide = {
+  programs.zoxide = {
     enable = true;
     enableFishIntegration = true;
   };
@@ -57,7 +37,8 @@ programs.fish = {
 
   # Program configuration
   programs.gh.enable = true;
-  
+
   # Enable home-manager to manage itself
   programs.home-manager.enable = true;
 }
+
