@@ -17,10 +17,7 @@
     pkgs.fnm
     pkgs.zoxide
     pkgs.zsh
-    pkgs.zsh-powerlevel10k
-    pkgs.zsh-syntax-highlighting
-    pkgs.zsh-history-substring-search
-    # --- Fast
+    pkgs.fastfetch
   ];
  programs.zoxide = {
     enable = true;
