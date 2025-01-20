@@ -16,25 +16,35 @@
     pkgs.yabai
     pkgs.fnm
     pkgs.zoxide
-    pkgs.fishPlugins.tide
+    pkgs.zsh
+    pkgs.zsh-powerlevel10k
+    pkgs.zsh-syntax-highlighting
+    pkgs.zsh-history-substring-search
     # --- Fast
   ];
-
-  
-
-  programs.zoxide = {
+ programs.zoxide = {
     enable = true;
-    enableFishIntegration = true;
+    enableZshIntegration = true;
   };
-
-  # Symlink configuration for Alacritty
+programs.zsh = {
+enable = true;
+    autosuggestion.enable = true;
+    enableCompletion = true;
+};
+ # Symlink configuration for Alacritty
+home.file.".zshrc" = {
+  source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/config/zsh/.zshrc";
+};
   xdg.configFile = {
     "alacritty" = {
       source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/config/alacritty";
       recursive = true;
     };
-  };
-
+"zsh" = {
+      source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/config/zsh";
+      recursive = true;
+    };
+};
   # Program configuration
   programs.gh.enable = true;
 
