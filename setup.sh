@@ -1,4 +1,5 @@
 #!/bin/bash
+
 #-- ╔═══════════════════════╗
 #-- ║    Dynamic Variables  ║
 #-- ╚═══════════════════════╝
@@ -8,19 +9,14 @@ HOMEDIR=$(eval echo ~"$USERNAME")
 
 # Path to the home.nix file
 HOME_NIX_FILE="./home.nix"
-echo "Looking for home.nix at: $HOME_NIX_FILE"
 
 # Replace placeholders dynamically
 if [ -f "$HOME_NIX_FILE" ]; then
     echo "Updating $HOME_NIX_FILE with dynamic variables..."
-    sed -i -e "s|__USERNAME__|$USERNAME|g" \
+    sed -i.bak -e "s|__USERNAME__|$USERNAME|g" \
                -e "s|__HOMEDIR__|$HOMEDIR|g" \
                "$HOME_NIX_FILE"
     echo "Dynamic variables injected into $HOME_NIX_FILE."
-    
-    # Output the username and home directory with emojis
-    echo "Home-manager will config on : 🖥️  $USERNAME"
-    echo "Home Directory: 📁  $HOMEDIR"
 else
     echo "Error: $HOME_NIX_FILE does not exist."
     exit 1
