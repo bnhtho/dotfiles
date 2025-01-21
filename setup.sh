@@ -51,7 +51,7 @@ echo "Directories created successfully."
 MARKER_FILE="/tmp/nix_conf_copied"
 if [ ! -f "$MARKER_FILE" ]; then
     echo "Copying nix.conf to ~/.config/nix..."
-    cp -r ~/.dotfiles/nix/* ~/.config/nix/
+    cp -r ~/.dotfiles/nix/ ~/.config/nix/
     echo "nix.conf copied successfully."
 
     # Create marker file to prevent future copies in this session
