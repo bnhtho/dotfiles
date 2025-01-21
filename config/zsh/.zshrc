@@ -1,6 +1,6 @@
 ## Setup highlight
 source ~/.dotfiles/config/zsh/configs/highlight/zsh-syntax-highlighting.plugin.zsh
-# source ~/.dotfiles/config/zsh/configs/autosuggestion/zsh-syntax-highlighting.plugin.zsh
+source ~/.dotfiles/config/zsh/configs/autosuggestion/zsh-autosuggestions.plugin.zsh
 ## Setup theme
 #source ~/.config/zsh/theme/cypher.zsh-theme
  source ~/.dotfiles/config/zsh/theme/git-prompt.zsh/git-prompt.zsh
