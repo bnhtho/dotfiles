@@ -49,32 +49,18 @@ fi
 #-- ╔═══════════════════════╗
 #-- ║ Step 3: Clone .dotfiles Repo ║
 #-- ╚═══════════════════════╝
-# Check if the .dotfiles directory exists
+temp_dir="$home_dir/.dotfiles_temp"
 if [ ! -d "$home_dir/.dotfiles" ]; then
     echo "Cloning your repository to ~/.dotfiles..."
     git clone https://github.com/bnhtho/dotfiles "$home_dir/.dotfiles"
     echo "Repository cloned successfully."
 else
-    echo ".dotfiles directory already exists. Checking for changes..."
-
-    # Check if there are uncommitted changes
-    cd "$home_dir/.dotfiles"
-    if [[ -n $(git status --porcelain) ]]; then
-        echo "There are uncommitted changes. Stashing changes..."
-        git stash save "Backup before pulling changes"
-    else
-        echo "No uncommitted changes found."
-    fi
-
-    # Pull the latest changes from the remote repository
-    echo "Pulling the repository..."
-    git pull
-
-    # Apply stashed changes if there were any
-    if [[ -n $(git stash list) ]]; then
-        echo "Applying stashed changes..."
-        git stash pop
-    fi
+    echo ".dotfiles directory already exists. Using a temporary clone for syncing..."
+    rm -rf "$temp_dir"
+    git clone https://github.com/bnhtho/dotfiles "$temp_dir"
+    rsync -a --delete "$temp_dir/" "$home_dir/.dotfiles/"
+    rm -rf "$temp_dir"
+    echo "Repository has been synced successfully."
 fi
 
 #-- ╔═══════════════════════╗
