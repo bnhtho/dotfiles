@@ -35,7 +35,7 @@ fi
 # Step 3 - Clone your repo and rename it to .dotfiles
 if [ ! -d "$HOME/.dotfiles" ]; then
     echo "Cloning your repository to ~/.dotfiles..."
-    git clone <your-repo-url> ~/.dotfiles
+    git clone https://github.com/bnhtho/dotfiles ~/.dotfiles
     echo "Repository cloned successfully."
 else
     echo ".dotfiles directory already exists. Skipping clone."
