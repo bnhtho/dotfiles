@@ -149,10 +149,6 @@ fi
 #-- ╚═══════════════════════╝
 if [ "$machine" == "Mac" ]; then
     echo "Running on macOS"
-    defaults write com.apple.dock persistent-apps -array
-    defaults write com.apple.dock tilesize -integer 36
-    killall Dock
-    defaults write -g ApplePressAndHoldEnabled -bool false
 elif [ "$machine" == "Linux" ]; then
     echo "Running on Linux"
 fi

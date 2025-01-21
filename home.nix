@@ -58,6 +58,12 @@ source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotf
       recursive = true;
 };
 
+## Neovim
+"neovim" = {
+source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/config/neovim";
+      recursive = true;
+};
+
 "skhd" = {
 source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/config/skhd";
       recursive = true;
