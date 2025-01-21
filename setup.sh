@@ -135,8 +135,6 @@ if [ "$machine" == "Mac" ]; then
     defaults write com.apple.dock tilesize -integer 36
     killall Dock
     defaults write -g ApplePressAndHoldEnabled -bool false
-    defaults write -g InitialKeyRepeat -int 10
-    defaults write -g KeyRepeat -int 1
 elif [ "$machine" == "Linux" ]; then
     echo "Running on Linux"
 fi

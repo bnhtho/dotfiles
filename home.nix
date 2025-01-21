@@ -10,7 +10,6 @@
     pkgs.neovim
     pkgs.lazygit
     pkgs.alacritty
-    pkgs.tmux
     pkgs.fzf
     pkgs.eza
     pkgs.yabai
@@ -23,6 +22,7 @@
     ## -- Text other ---
     pkgs.obsidian
     pkgs.skhd
+    pkgs.tmux
   ];
  programs.zoxide = {
     enable = true;
@@ -32,6 +32,12 @@ programs.zsh = {
 enable = true;
     autosuggestion.enable = true;
     enableCompletion = true;
+};
+## - Tmux 
+programs.tmux = {
+	enable = true;
+	terminal = "screen-256color";
+
 };
  # Symlink configuration for Alacritty
 home.file.".zshrc" = {
@@ -62,7 +68,6 @@ source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotf
 };
   # Program configuration
   programs.gh.enable = true;
-
  # Program fzf-zsh enabled
  programs.fzf = {
 	enable = true;
