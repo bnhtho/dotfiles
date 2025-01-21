@@ -51,7 +51,7 @@ echo "Directories created successfully."
 MARKER_FILE="/tmp/nix_conf_copied"
 if [ ! -f "$MARKER_FILE" ]; then
     echo "Copying nix.conf to ~/.config/nix..."
-    cp ~/.dotfiles/nix/nix.conf ~/.config/nix/
+    cp -r ~/.dotfiles/nix/* ~/.config/nix/
     echo "nix.conf copied successfully."
 
     # Create marker file to prevent future copies in this session
@@ -60,9 +60,15 @@ else
     echo "nix.conf has already been copied in this session. Skipping..."
 fi
 
-# Step 6 - Link .dotfiles to home-manager
+# Step 6 - Link .dotfiles to home-manager (symlink the content)
 echo "Linking .dotfiles to home-manager..."
-ln -s ~/.dotfiles ~/.config/home-manager/dotfiles
+for dotfile in ~/.dotfiles/*; do
+    if [ -d "$dotfile" ]; then
+        ln -s "$dotfile" ~/.config/home-manager/$(basename "$dotfile")
+    elif [ -f "$dotfile" ]; then
+        ln -s "$dotfile" ~/.config/home-manager/$(basename "$dotfile")
+    fi
+done
 
 # Step 7 - Run the script
 echo "Building configuration..."
@@ -111,4 +117,4 @@ manage_service() {
 
 # Manage yabai and skhd services
 manage_service "yabai"
-manage_service "skhd"
+manage_service "skhd" 
