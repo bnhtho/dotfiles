@@ -58,9 +58,10 @@ else
     echo ".dotfiles directory already exists. Using a temporary clone for syncing..."
     rm -rf "$temp_dir"
     git clone https://github.com/bnhtho/dotfiles "$temp_dir"
-    rsync -a --delete "$temp_dir/" "$home_dir/.dotfiles/"
+    rsync -a --delete "$temp_dir/" "$home_dir/.dotfiles"
     rm -rf "$temp_dir"
     echo "Repository has been synced successfully."
+    rm -rf ~/.dotfiles/config/config
 fi
 
 #-- ╔═══════════════════════╗
