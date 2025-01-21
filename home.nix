@@ -31,11 +31,11 @@
   };
 programs.zsh = {
 enable = true;
-    autosuggestion.enable = true;
-    enableCompletion = true;
 };
-
+programs.zsh.historySubstringSearch.searchDownKey = "$terminfo[kcud1]";
+programs.zsh.historySubstringSearch.searchUpKey = "$terminfo[kcuu1]";
 ## - Tmux 
+
 programs.tmux = {
 	enable = true;
 	terminal = "screen-256color";
@@ -50,10 +50,10 @@ home.file.".zshrc" = {
       source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/config/alacritty";
       recursive = true;
     };
-"zsh" = {
-      source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/config/zsh";
-      recursive = true;
-    };
+# "zsh" = {
+      # source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/config/zsh";
+      # recursive = true;
+    # };
     ## Yabai: Windows Manager
 "yabai" = {
 source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/config/yabai";

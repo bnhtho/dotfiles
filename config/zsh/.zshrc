@@ -1,5 +1,6 @@
 ## Setup highlight
-# source ~/.dotfiles/config/zsh/configs/highlight/zsh-syntax-highlighting.plugin.zsh
+source ~/.dotfiles/config/zsh/configs/highlight/zsh-syntax-highlighting.plugin.zsh
+# source ~/.dotfiles/config/zsh/configs/autosuggestion/zsh-syntax-highlighting.plugin.zsh
 ## Setup theme
 #source ~/.config/zsh/theme/cypher.zsh-theme
  source ~/.dotfiles/config/zsh/theme/git-prompt.zsh/git-prompt.zsh
@@ -33,7 +34,18 @@ ZSH_THEME_GIT_PROMPT_UNTRACKED="…" # Giữ nguyên nếu không cần thay đ�
 ZSH_THEME_GIT_PROMPT_STASHED="%{$fg[blue]%} 🏳️ " # Emoji thay cho ⚑
 ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg_bold[green]%}✔️" # Emoji thay cho ✔
 
-
+## -- Setup fnm -- 
 if type fnm >/dev/null 2>&1; then
   eval "$(fnm env --use-on-cd --log-level error)"
 fi
+
+## -- Setup History
+HISTFILE=~/.zsh-histfile
+HISTSIZE=200000000
+autoload -U up-line-or-beginning-search
+autoload -U down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+bindkey "^[[A" up-line-or-beginning-search # Up
+bindkey "^[[B" down-line-or-beginning-search # Down
+
