@@ -70,6 +70,23 @@ if [ -f "$flake_nix_path" ]; then
 else
     echo "flake.nix not found. Skipping update."
 fi
+
+## - Update home.nix
+if [ -f "$home_nix_path" ]; then
+    echo "Verifying home.nix..."
+    
+    # Check for errors in home.nix using nix-instantiate
+    if nix-instantiate "$home_nix_path" &>/dev/null; then
+        echo "home.nix syntax is valid."
+    else
+        echo "Error: home.nix contains syntax errors. Please fix them before proceeding."
+        exit 1
+    fi
+else
+    echo "home.nix file not found at $home_nix_path. Ensure it exists and is properly configured."
+    exit 1
+fi
+
 #-- ╔═══════════════════════╗
 #-- ║ Step 5: Create Config Directories ║
 #-- ╚═══════════════════════╝
