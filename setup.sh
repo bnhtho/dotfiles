@@ -60,39 +60,14 @@ fi
 #-- ╔═══════════════════════╗
 #-- ║ Step 4: Update home.nix and flake.nix ║
 #-- ╚═══════════════════════╝
-home_nix_path="$home_dir/.dotfiles/home-manager/home.nix"
-flake_nix_path="$home_dir/.dotfiles/flake.nix"
-
-# Update home.nix with the current username
-if [ -f "$home_nix_path" ]; then
-    echo "Updating home.nix with current username: $current_user"
-    
-    # Replace home.username
-    sed -i.bak "s|home\.username = \".*\";|home.username = \"$current_user\";|g" "$home_nix_path"
-
-    # Replace home.homeDirectory
-    sed -i.bak "s|home\.homeDirectory = \".*\";|home.homeDirectory = \"$home_dir\";|g" "$home_nix_path"
-    
-    echo "home.nix updated successfully. Backup created as home.nix.bak"
-else
-    echo "home.nix file not found at $home_nix_path. Skipping update."
-fi
-
-# Update flake.nix with the current username
 if [ -f "$flake_nix_path" ]; then
     echo "Updating flake.nix with current username: $current_user"
-
-    # Replace homeConfigurations.<username>
     sed -i.bak "s|homeConfigurations\..* =|homeConfigurations.\"$current_user\" =|g" "$flake_nix_path"
-
-    # Replace description if it contains the username
     sed -i.bak "s|description = \".*\";|description = \"Home Manager configuration of $current_user\";|g" "$flake_nix_path"
-    
-    echo "flake.nix updated successfully. Backup created as flake.nix.bak"
+    echo "flake.nix updated successfully."
 else
-    echo "flake.nix file not found at $flake_nix_path. Skipping update."
+    echo "flake.nix not found. Skipping update."
 fi
-
 #-- ╔═══════════════════════╗
 #-- ║ Step 5: Create Config Directories ║
 #-- ╚═══════════════════════╝
@@ -140,8 +115,8 @@ if [ "$machine" == "Mac" ]; then
     defaults write com.apple.dock tilesize -integer 36
     killall Dock
     defaults write -g ApplePressAndHoldEnabled -bool false
-    defaults write -g InitialKeyRepeat -int 15
-    defaults write -g KeyRepeat -int 5
+    defaults write -g InitialKeyRepeat -int 10
+    defaults write -g KeyRepeat -int 1
 elif [ "$machine" == "Linux" ]; then
     echo "Running on Linux"
 fi
