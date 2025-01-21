@@ -1,0 +1,23 @@
+{
+  "TODO": {
+    "prefix": "todo",
+    "body": "TODO:",
+    "description": "Insert a TODO comment with customizable content"
+  },
+  "HACK": {
+    "prefix": "hack",
+    "body": "HACK:",
+    "description": "Insert a HACK comment with customizable content"
+  },
+
+  "FIXME": {
+    "prefix": "fixme",
+    "body": "FIXME:",
+    "description": "Insert a FIXME comment with customizable content"
+  },
+  "NOTE": {
+    "prefix": "note",
+    "body": "NOTE:",
+    "description": "Insert a NOTE comment with customizable content"
+  }
+}
