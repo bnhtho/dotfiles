@@ -45,20 +45,13 @@ fi
 echo "Creating necessary directories..."
 mkdir -p ~/.config/nix
 mkdir -p ~/.config/home-manager
-echo "Directories created successfully."
+touch ~/.config/nix/nix.conf
 
-# Step 5 - Copy nix.conf to ~/.config/nix
-MARKER_FILE="/tmp/nix_conf_copied"
-if [ ! -f "$MARKER_FILE" ]; then
-    echo "Copying nix.conf to ~/.config/nix..."
-    cp -r ~/.dotfiles/nix/ ~/.config/nix/
-    echo "nix.conf copied successfully."
-
-    # Create marker file to prevent future copies in this session
-    touch "$MARKER_FILE"
-else
-    echo "nix.conf has already been copied in this session. Skipping..."
-fi
+echo "Directories and nix.conf created successfully."
+echo "Step 5: Create file"
+# Step 5 - Writing to nix.conf
+    echo "extra-experimental-features = nix-command flakes" > ~/.config/nix/nix.conf
+    echo "nix.conf content added successfully."
 
 # Step 6 - Link .dotfiles to home-manager (symlink the content)
 echo "Linking .dotfiles to home-manager..."
@@ -118,3 +111,16 @@ manage_service() {
 # Manage yabai and skhd services
 manage_service "yabai"
 manage_service "skhd" 
+
+## Add other tweaks for macOS
+echo "Disable all default Icons of the dock and make dozer size to 36"
+defaults write com.apple.dock persistent-apps -array
+defaults write com.apple.dock tilesize -integer 36
+killall Dock
+
+echo "Disable hold to show accents"
+defaults write -g ApplePressAndHoldEnabled -bool false
+echo "Optimize key speed"
+defaults write -g InitialKeyRepeat -int 15
+defaults write -g KeyRepeat -int 5
+
