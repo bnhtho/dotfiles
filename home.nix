@@ -19,6 +19,10 @@
     pkgs.zsh
     pkgs.fastfetch
     pkgs.btop
+    pkgs.skhd
+    ## -- Text other ---
+    pkgs.obsidian
+    pkgs.skhd
   ];
  programs.zoxide = {
     enable = true;
@@ -42,6 +46,19 @@ home.file.".zshrc" = {
       source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/config/zsh";
       recursive = true;
     };
+    ## Yabai: Windows Manager
+"yabai" = {
+source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/config/yabai";
+      recursive = true;
+};
+
+"skhd" = {
+source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/config/skhd";
+      recursive = true;
+};
+
+## End of symlink
+
 };
   # Program configuration
   programs.gh.enable = true;
@@ -53,5 +70,11 @@ home.file.".zshrc" = {
  };
   # Enable home-manager to manage itself
   programs.home-manager.enable = true;
+ nixpkgs = {
+    config = {
+      allowUnfree = true;
+      allowUnfreePredicate = (_: true);
+    };
+  };
 }
 

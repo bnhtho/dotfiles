@@ -58,3 +58,25 @@ elif [ "$machine" == "Linux" ]; then
     # Add Linux-specific code here if needed
 fi
 
+#-- ╔═══════════════════════╗
+#-- ║    Services           ║
+#-- ╚═══════════════════════╝
+# Function to check and manage a service
+manage_service() {
+  service_name="$1"
+
+  # Check if the service is running using ps aux
+  if ps aux | grep -v grep | grep -q "$service_name"; then
+    echo "$service_name service is already running. Restarting..."
+    "$service_name" --restart-service
+  else
+    echo "$service_name service is not running. Starting..."
+    "$service_name" --start-service
+  fi
+}
+
+# Manage yabai and skhd services
+manage_service "yabai"
+manage_service "skhd"
+
+
