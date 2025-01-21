@@ -60,7 +60,7 @@ fi
 #-- ╔═══════════════════════╗
 #-- ║ Step 4: Update home.nix and flake.nix ║
 #-- ╚═══════════════════════╝
-home_nix_path="$home_dir/.dotfiles/home-manager/home.nix"
+home_nix_path="$home_dir/.dotfiles/home.nix"
 flake_nix_path="$home_dir/.dotfiles/flake.nix"
 # Update flake.nix
 if [ -f "$flake_nix_path" ]; then
