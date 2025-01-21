@@ -60,13 +60,17 @@ fi
 #-- ╔═══════════════════════╗
 #-- ║ Step 4: Update home.nix and flake.nix ║
 #-- ╚═══════════════════════╝
+
 home_nix_path="$home_dir/.dotfiles/home.nix"
 flake_nix_path="$home_dir/.dotfiles/flake.nix"
+
 # Update flake.nix
 if [ -f "$flake_nix_path" ]; then
     echo "Updating flake.nix with current username: $current_user"
-    sed -i.bak "s|homeConfigurations\..* =|homeConfigurations.\"$current_user\" =|g" "$flake_nix_path"
-    sed -i.bak "s|description = \".*\";|description = \"Home Manager configuration of $current_user\";|g" "$flake_nix_path"
+    # Update flakeConfigurations block dynamically
+    sed -i '' "s|homeConfigurations\..* =|homeConfigurations.\"$current_user\" =|g" "$flake_nix_path"
+    # Update description dynamically
+    sed -i '' "s|description = \".*\";|description = \"Home Manager configuration of $current_user\";|g" "$flake_nix_path"
     echo "flake.nix updated successfully."
 else
     echo "flake.nix not found. Skipping update."
@@ -76,13 +80,14 @@ fi
 if [ -f "$home_nix_path" ]; then
     echo "Updating home.nix with current username: $current_user"
     # Update home.username dynamically
-    sed -i.bak "s|home\.username = \".*\";|home.username = \"$current_user\";|g" "$home_nix_path"
+    sed -i '' "s|home\.username = \".*\";|home.username = \"$current_user\";|g" "$home_nix_path"
     # Update home.homeDirectory dynamically
-    sed -i.bak "s|home\.homeDirectory = \".*\";|home.homeDirectory = \"$home_dir\";|g" "$home_nix_path"
+    sed -i '' "s|home\.homeDirectory = \".*\";|home.homeDirectory = \"$home_dir\";|g" "$home_nix_path"
     echo "home.nix updated successfully. Backup created as home.nix.bak"
 else
     echo "home.nix not found. Skipping update."
 fi
+
 #-- ╔═══════════════════════╗
 #-- ║ Step 5: Create Config Directories ║
 #-- ╚═══════════════════════╝
