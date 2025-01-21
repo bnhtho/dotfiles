@@ -60,6 +60,8 @@ fi
 #-- ╔═══════════════════════╗
 #-- ║ Step 4: Update home.nix and flake.nix ║
 #-- ╚═══════════════════════╝
+home_nix_path="$home_dir/.dotfiles/home-manager/home.nix"
+flake_nix_path="$home_dir/.dotfiles/flake.nix"
 if [ -f "$flake_nix_path" ]; then
     echo "Updating flake.nix with current username: $current_user"
     sed -i.bak "s|homeConfigurations\..* =|homeConfigurations.\"$current_user\" =|g" "$flake_nix_path"
