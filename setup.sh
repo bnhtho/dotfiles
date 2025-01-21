@@ -47,21 +47,32 @@ else
 fi
 
 #-- ╔═══════════════════════╗
-#-- ║ Step 3: Clone .dotfiles Repo ║
+#-- ║ Step 3: Check for Updates on GitHub ║
 #-- ╚═══════════════════════╝
-temp_dir="$home_dir/.dotfiles_temp"
-if [ ! -d "$home_dir/.dotfiles" ]; then
-    echo "Cloning your repository to ~/.dotfiles..."
-    git clone https://github.com/bnhtho/dotfiles "$home_dir/.dotfiles"
-    echo "Repository cloned successfully."
+
+repo_url="https://github.com/bnhtho/dotfiles"
+local_dir="$home_dir/.dotfiles"
+target_branch_or_tag="main"
+
+if [ -d "$local_dir" ]; then
+    echo "Checking for updates in the repository..."
+    git -C "$local_dir" fetch origin "$target_branch_or_tag"
+    # Lấy commit hash của local và remote
+    local_commit=$(git -C "$local_dir" rev-parse HEAD)
+    remote_commit=$(git -C "$local_dir" rev-parse origin/"$target_branch_or_tag")
+
+    if [ "$local_commit" != "$remote_commit" ]; then
+        echo "New updates detected on branch '$target_branch_or_tag'. Re-cloning repository..."
+        rm -rf "$local_dir"
+        git clone --branch "$target_branch_or_tag" "$repo_url" "$local_dir"
+        echo "Repository updated successfully."
+    else
+        echo "No updates detected. Local repository is up-to-date."
+    fi
 else
-    echo ".dotfiles directory already exists. Using a temporary clone for syncing..."
-    rm -rf "$temp_dir"
-    git clone https://github.com/bnhtho/dotfiles "$temp_dir"
-    rsync -a --delete "$temp_dir/" "$home_dir/.dotfiles"
-    rm -rf "$temp_dir"
-    echo "Repository has been synced successfully."
-    rm -rf ~/.dotfiles/config/config
+    echo "Cloning your repository (branch/tag: $target_branch_or_tag) to ~/.dotfiles..."
+    git clone --branch "$target_branch_or_tag" "$repo_url" "$local_dir"
+    echo "Repository cloned successfully."
 fi
 
 #-- ╔═══════════════════════╗
