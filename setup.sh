@@ -1,6 +1,7 @@
 #!/bin/bash
+
 #-- ╔═══════════════════════╗
-#-- ║    System             ║
+#-- ║    System Detection    ║
 #-- ╚═══════════════════════╝
 # Detect the operating system
 unameOut="$(uname -s)"
@@ -13,7 +14,18 @@ case "${unameOut}" in
 esac
 echo "Detected platform: ${machine}"
 
-# Step 1 - Install Nix
+#-- ╔═══════════════════════╗
+#-- ║    Dynamic User Setup  ║
+#-- ╚═══════════════════════╝
+# Dynamically retrieve the current username
+current_user=$(whoami)
+home_dir=$(eval echo "~${current_user}")
+echo "Current user: ${current_user}"
+echo "Home directory: ${home_dir}"
+
+#-- ╔═══════════════════════╗
+#-- ║ Step 1: Install Nix   ║
+#-- ╚═══════════════════════╝
 if ! command -v nix &> /dev/null; then
     echo "Nix is not installed. Installing Nix..."
     curl -L https://nixos.org/nix/install | sh
@@ -22,7 +34,9 @@ else
     echo "Nix is already installed."
 fi
 
-# Step 2 - Install Home Manager
+#-- ╔═══════════════════════╗
+#-- ║ Step 2: Install Home Manager ║
+#-- ╚═══════════════════════╝
 if ! nix-channel --list | grep -q 'home-manager'; then
     echo "Adding Home Manager channel..."
     nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
@@ -32,95 +46,104 @@ else
     echo "Home Manager channel already exists."
 fi
 
-# Step 3 - Clone your repo and rename it to .dotfiles
-if [ ! -d "$HOME/.dotfiles" ]; then
+#-- ╔═══════════════════════╗
+#-- ║ Step 3: Clone .dotfiles Repo ║
+#-- ╚═══════════════════════╝
+if [ ! -d "$home_dir/.dotfiles" ]; then
     echo "Cloning your repository to ~/.dotfiles..."
-    git clone https://github.com/bnhtho/dotfiles ~/.dotfiles
+    git clone https://github.com/bnhtho/dotfiles "$home_dir/.dotfiles"
     echo "Repository cloned successfully."
 else
     echo ".dotfiles directory already exists. Skipping clone."
 fi
 
-# Step 4 - Create ~/.config and ~/.config/nix and home-manager directory
-echo "Creating necessary directories..."
-mkdir -p ~/.config/nix
-mkdir -p ~/.config/home-manager
-touch ~/.config/nix/nix.conf
-
-echo "Directories and nix.conf created successfully."
-echo "Step 5: Create file"
-# Step 5 - Writing to nix.conf
-    echo "extra-experimental-features = nix-command flakes" > ~/.config/nix/nix.conf
-    echo "nix.conf content added successfully."
-
-# Step 6 - Link .dotfiles to home-manager (symlink the content)
-echo "Linking .dotfiles to home-manager..."
-for dotfile in ~/.dotfiles/*; do
-    if [ -d "$dotfile" ]; then
-        ln -s "$dotfile" ~/.config/home-manager/$(basename "$dotfile")
-    elif [ -f "$dotfile" ]; then
-        ln -s "$dotfile" ~/.config/home-manager/$(basename "$dotfile")
-    fi
-done
-
-# Step 7 - Run the script
-echo "Building configuration..."
-nix run home-manager switch
-
-# Platform-specific actions
 #-- ╔═══════════════════════╗
-#-- ║    Mac                ║
+#-- ║ Step 4: Update home.nix and flake.nix ║
 #-- ╚═══════════════════════╝
-if [ "$machine" == "Mac" ]; then
-    echo "Running on macOS"
+home_nix_path="$home_dir/.dotfiles/home-manager/home.nix"
+flake_nix_path="$home_dir/.dotfiles/flake.nix"
+
+# Update home.nix with the current username
+if [ -f "$home_nix_path" ]; then
+    echo "Updating home.nix with current username: $current_user"
     
-    # Check current hostname
-    currentHostName=$(scutil --get HostName 2>/dev/null)
-    if [ "$currentHostName" == "MacbookAir" ]; then
-        echo "Hostname is already set to 'MacbookAir'. No changes needed."
-    else
-        echo "Setting hostname to 'MacbookAir'..."
-        sudo scutil --set HostName MacbookAir
-        echo "Hostname updated successfully."
-    fi
-#-- ╔═══════════════════════╗
-#-- ║    Linux              ║
-#-- ╚═══════════════════════╝
-elif [ "$machine" == "Linux" ]; then
-    echo "Running on Linux"
-    # Add Linux-specific code here if needed
+    # Replace home.username
+    sed -i.bak "s|home\.username = \".*\";|home.username = \"$current_user\";|g" "$home_nix_path"
+
+    # Replace home.homeDirectory
+    sed -i.bak "s|home\.homeDirectory = \".*\";|home.homeDirectory = \"$home_dir\";|g" "$home_nix_path"
+    
+    echo "home.nix updated successfully. Backup created as home.nix.bak"
+else
+    echo "home.nix file not found at $home_nix_path. Skipping update."
+fi
+
+# Update flake.nix with the current username
+if [ -f "$flake_nix_path" ]; then
+    echo "Updating flake.nix with current username: $current_user"
+
+    # Replace homeConfigurations.<username>
+    sed -i.bak "s|homeConfigurations\..* =|homeConfigurations.\"$current_user\" =|g" "$flake_nix_path"
+
+    # Replace description if it contains the username
+    sed -i.bak "s|description = \".*\";|description = \"Home Manager configuration of $current_user\";|g" "$flake_nix_path"
+    
+    echo "flake.nix updated successfully. Backup created as flake.nix.bak"
+else
+    echo "flake.nix file not found at $flake_nix_path. Skipping update."
 fi
 
 #-- ╔═══════════════════════╗
-#-- ║    Services           ║
+#-- ║ Step 5: Create Config Directories ║
 #-- ╚═══════════════════════╝
-# Function to check and manage a service
-manage_service() {
-  service_name="$1"
+echo "Creating necessary directories..."
+mkdir -p "$home_dir/.config/nix"
+mkdir -p "$home_dir/.config/home-manager"
+touch "$home_dir/.config/nix/nix.conf"
+echo "Directories and nix.conf created successfully."
 
-  # Check if the service is running using ps aux
-  if ps aux | grep -v grep | grep -q "$service_name"; then
-    echo "$service_name service is already running. Restarting..."
-    "$service_name" --restart-service
-  else
-    echo "$service_name service is not running. Starting..."
-    "$service_name" --start-service
-  fi
-}
+#-- ╔═══════════════════════╗
+#-- ║ Step 6: Write nix.conf ║
+#-- ╚═══════════════════════╝
+echo "extra-experimental-features = nix-command flakes" > "$home_dir/.config/nix/nix.conf"
+echo "nix.conf content added successfully."
 
-# Manage yabai and skhd services
-manage_service "yabai"
-manage_service "skhd" 
+#-- ╔═══════════════════════╗
+#-- ║ Step 7: Safely Link Files ║
+#-- ╚═══════════════════════╝
+echo "Linking .dotfiles to home-manager..."
+for dotfile in "$home_dir/.dotfiles"/*; do
+    target="$home_dir/.config/home-manager/$(basename "$dotfile")"
+    if [ -e "$target" ] || [ -L "$target" ]; then
+        echo "Symlink already exists for $(basename "$dotfile"). Skipping..."
+    else
+        ln -s "$dotfile" "$target"
+        echo "Created symlink for $(basename "$dotfile")."
+    fi
+done
 
-## Add other tweaks for macOS
-echo "Disable all default Icons of the dock and make dozer size to 36"
-defaults write com.apple.dock persistent-apps -array
-defaults write com.apple.dock tilesize -integer 36
-killall Dock
+#-- ╔═══════════════════════╗
+#-- ║ Step 8: Build Configuration ║
+#-- ╚═══════════════════════╝
+echo "Building configuration..."
+if ! nix run home-manager switch; then
+    echo "Error: Failed to build configuration. Check your Home Manager setup."
+    exit 1
+fi
 
-echo "Disable hold to show accents"
-defaults write -g ApplePressAndHoldEnabled -bool false
-echo "Optimize key speed"
-defaults write -g InitialKeyRepeat -int 10
-defaults write -g KeyRepeat -int 1
+#-- ╔═══════════════════════╗
+#-- ║ Step 9: Platform-Specific Actions ║
+#-- ╚═══════════════════════╝
+if [ "$machine" == "Mac" ]; then
+    echo "Running on macOS"
+    defaults write com.apple.dock persistent-apps -array
+    defaults write com.apple.dock tilesize -integer 36
+    killall Dock
+    defaults write -g ApplePressAndHoldEnabled -bool false
+    defaults write -g InitialKeyRepeat -int 15
+    defaults write -g KeyRepeat -int 5
+elif [ "$machine" == "Linux" ]; then
+    echo "Running on Linux"
+fi
 
+echo "Setup completed successfully!"
