@@ -54,7 +54,8 @@ if [ ! -d "$home_dir/.dotfiles" ]; then
     git clone https://github.com/bnhtho/dotfiles "$home_dir/.dotfiles"
     echo "Repository cloned successfully."
 else
-    echo ".dotfiles directory already exists. Skipping clone."
+    echo ".dotfiles directory already exists. Pulling the repository"
+    git pull
 fi
 
 #-- ╔═══════════════════════╗
