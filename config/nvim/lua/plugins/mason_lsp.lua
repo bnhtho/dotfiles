@@ -10,7 +10,9 @@ return {
             "pyright",
             "marksman",
             "sqlls",
-            "jdtls"
+            "jdtls",
+
+	
         }
     }
 }

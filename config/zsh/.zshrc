@@ -33,3 +33,7 @@ ZSH_THEME_GIT_PROMPT_UNTRACKED="…" # Giữ nguyên nếu không cần thay đ�
 ZSH_THEME_GIT_PROMPT_STASHED="%{$fg[blue]%} 🏳️ " # Emoji thay cho ⚑
 ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg_bold[green]%}✔️" # Emoji thay cho ✔
 
+
+if type fnm >/dev/null 2>&1; then
+  eval "$(fnm env --use-on-cd --log-level error)"
+fi

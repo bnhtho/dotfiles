@@ -23,6 +23,7 @@
     pkgs.obsidian
     pkgs.skhd
     pkgs.tmux
+    ## For fnm
   ];
  programs.zoxide = {
     enable = true;
@@ -33,6 +34,7 @@ enable = true;
     autosuggestion.enable = true;
     enableCompletion = true;
 };
+
 ## - Tmux 
 programs.tmux = {
 	enable = true;

@@ -153,4 +153,23 @@ elif [ "$machine" == "Linux" ]; then
     echo "Running on Linux"
 fi
 
+#-- ╔═══════════════════════╗
+#-- ║ Step 10: FNM,Node     ║
+#-- ╚═══════════════════════╝
+
+# Check if fnm, node, and npm are installed
+if command -v fnm > /dev/null && command -v node > /dev/null && command -v npm > /dev/null; then
+  echo "fnm, Node.js, and npm are installed. Proceeding with library installation..."
+  
+  # Run the installation command
+  npm i -g @olrtg/emmet-language-server
+  if [ $? -eq 0 ]; then
+    echo "Library installed successfully!"
+  else
+    echo "An error occurred while installing the library."
+  fi
+else
+  echo "fnm, Node.js, or npm is not installed. Please check your environment."
+fi
+
 echo "Setup completed successfully!"
