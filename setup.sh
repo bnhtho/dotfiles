@@ -13,24 +13,58 @@ case "${unameOut}" in
 esac
 echo "Detected platform: ${machine}"
 
-# Marker file to track whether nix.conf has already been copied
+# Step 1 - Install Nix
+if ! command -v nix &> /dev/null; then
+    echo "Nix is not installed. Installing Nix..."
+    curl -L https://nixos.org/nix/install | sh
+    echo "Nix installed successfully."
+else
+    echo "Nix is already installed."
+fi
+
+# Step 2 - Install Home Manager
+if ! nix-channel --list | grep -q 'home-manager'; then
+    echo "Adding Home Manager channel..."
+    nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
+    nix-channel --update
+    echo "Home Manager channel added successfully."
+else
+    echo "Home Manager channel already exists."
+fi
+
+# Step 3 - Clone your repo and rename it to .dotfiles
+if [ ! -d "$HOME/.dotfiles" ]; then
+    echo "Cloning your repository to ~/.dotfiles..."
+    git clone <your-repo-url> ~/.dotfiles
+    echo "Repository cloned successfully."
+else
+    echo ".dotfiles directory already exists. Skipping clone."
+fi
+
+# Step 4 - Create ~/.config and ~/.config/nix and home-manager directory
+echo "Creating necessary directories..."
+mkdir -p ~/.config/nix
+mkdir -p ~/.config/home-manager
+echo "Directories created successfully."
+
+# Step 5 - Copy nix.conf to ~/.config/nix
 MARKER_FILE="/tmp/nix_conf_copied"
-
-# Check and copy nix.conf only once
 if [ ! -f "$MARKER_FILE" ]; then
-    echo "Copying nix.conf to ~/.config folder..."
-    mkdir -p ~/.config/nix
+    echo "Copying nix.conf to ~/.config/nix..."
     cp ~/.dotfiles/nix/nix.conf ~/.config/nix/
-    echo "Nix configuration copied successfully."
+    echo "nix.conf copied successfully."
 
-    # Create marker file
+    # Create marker file to prevent future copies in this session
     touch "$MARKER_FILE"
 else
     echo "nix.conf has already been copied in this session. Skipping..."
 fi
 
-# -------------------------------------------------------------------------
-# Run update
+# Step 6 - Link .dotfiles to home-manager
+echo "Linking .dotfiles to home-manager..."
+ln -s ~/.dotfiles ~/.config/home-manager/dotfiles
+
+# Step 7 - Run the script
 echo "Building configuration..."
 nix run home-manager switch
 
@@ -78,5 +112,3 @@ manage_service() {
 # Manage yabai and skhd services
 manage_service "yabai"
 manage_service "skhd"
-
-
