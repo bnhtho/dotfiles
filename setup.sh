@@ -55,8 +55,7 @@ if [ ! -d "$home_dir/.dotfiles" ]; then
     echo "Repository cloned successfully."
 else
     eecho ".dotfiles directory already exists. Pulling the repository..."
-    cd "$home_dir/.dotfiles"
-    git pull
+    git -C "$home_dir/.dotfiles" pull
 fi
 
 #-- ╔═══════════════════════╗
