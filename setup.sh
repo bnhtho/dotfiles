@@ -73,18 +73,14 @@ fi
 
 ## - Update home.nix
 if [ -f "$home_nix_path" ]; then
-    echo "Verifying home.nix..."
-    
-    # Check for errors in home.nix using nix-instantiate
-    if nix-instantiate "$home_nix_path" &>/dev/null; then
-        echo "home.nix syntax is valid."
-    else
-        echo "Error: home.nix contains syntax errors. Please fix them before proceeding."
-        exit 1
-    fi
+    echo "Updating home.nix with current username: $current_user"
+    # Update `home.username`
+    sed -i.bak "s|home\.username = \".*\";|home.username = \"$current_user\";|g" "$home_nix_path"
+    # Update `home.homeDirectory`
+    sed -i.bak "s|home\.homeDirectory = \".*\";|home.homeDirectory = \"$home_dir\";|g" "$home_nix_path"
+    echo "home.nix updated successfully. Backup created as home.nix.bak"
 else
-    echo "home.nix file not found at $home_nix_path. Ensure it exists and is properly configured."
-    exit 1
+    echo "home.nix not found. Skipping update."
 fi
 
 #-- ╔═══════════════════════╗
