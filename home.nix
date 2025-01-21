@@ -59,8 +59,8 @@ source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotf
 };
 
 ## Neovim
-"neovim" = {
-source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/config/neovim";
+"nvim" = {
+source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/config/nvim";
       recursive = true;
 };
 
