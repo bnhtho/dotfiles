@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #-- ╔═══════════════════════╗
-#-- ║    Variables.         ║
+#-- ║    Variables          ║
 #-- ╚═══════════════════════╝
 
 current_user=$(whoami) 
@@ -131,7 +131,7 @@ echo "Directories and nix.conf created successfully."
 
 ## Add content of file config to ~/.config/nix
 echo "extra-experimental-features = nix-command flakes" > "$home_dir/.config/nix/nix.conf"
-echo "nix.conf content added successfully.
+echo "nix.conf content added successfully".
 
 #-- ╔═══════════════════════╗
 #-- ║     Symlink.          ║
