@@ -1,96 +1,112 @@
-{ config, pkgs, ... }:
+{ config, pkgs, ... }: 
 
 {
+  # Basic configuration
   home.username = "thobui";
   home.homeDirectory = "/Users/thobui";
   home.stateVersion = "24.11";
+
+  # Packages
   home.packages = [
+    # Fonts
     pkgs.nerd-fonts.jetbrains-mono
-    pkgs.gh
+
+    # Development tools
     pkgs.neovim
     pkgs.lazygit
+    pkgs.gh
+    pkgs.fnm
+    pkgs.zsh
     pkgs.alacritty
+
+    # Productivity tools
+    pkgs.obsidian
+    pkgs.tmux
+
+    # Utilities
     pkgs.fzf
     pkgs.eza
-    pkgs.yabai
-    pkgs.fnm
-    pkgs.zoxide
-    pkgs.zsh
-    pkgs.fastfetch
-    pkgs.btop
-    pkgs.skhd
-    ## -- Text other ---
-    pkgs.obsidian
-    pkgs.skhd
-    pkgs.tmux
-    ## Utilities
     pkgs.ripgrep
     pkgs.fd
+    pkgs.fastfetch
+    pkgs.btop
     pkgs.gitmoji-cli
+    pkgs.zoxide
+    pkgs.yabai
+    pkgs.skhd
   ];
- programs.zoxide = {
-    enable = true;
-    enableZshIntegration = true;
+
+  # Programs configuration
+  programs = {
+    # Zoxide
+    zoxide = {
+      enable = true;
+      enableZshIntegration = true;
+    };
+
+    # Zsh
+    zsh = {
+      enable = true;
+      historySubstringSearch = {
+        searchDownKey = "$terminfo[kcud1]";
+        searchUpKey = "$terminfo[kcuu1]";
+      };
+    };
+
+    # Tmux
+    tmux = {
+      enable = true;
+      terminal = "screen-256color";
+    };
+
+    # fzf
+    fzf = {
+      enable = true;
+      enableZshIntegration = true;
+    };
+
+    # GitHub CLI
+    gh.enable = true;
+
+    # Home-manager self-management
+    home-manager.enable = true;
   };
-programs.zsh = {
-enable = true;
-};
-programs.zsh.historySubstringSearch.searchDownKey = "$terminfo[kcud1]";
-programs.zsh.historySubstringSearch.searchUpKey = "$terminfo[kcuu1]";
-## - Tmux 
 
-programs.tmux = {
-	enable = true;
-	terminal = "screen-256color";
-
-};
- # Symlink configuration for Alacritty
-home.file.".zshrc" = {
-  source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/config/zsh/.zshrc";
-};
+  # Symlink configurations
   xdg.configFile = {
+    # Alacritty
     "alacritty" = {
       source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/config/alacritty";
       recursive = true;
     };
-# "zsh" = {
-      # source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/config/zsh";
-      # recursive = true;
-    # };
-    ## Yabai: Windows Manager
-"yabai" = {
-source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/config/yabai";
+
+    # Yabai
+    "yabai" = {
+      source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/config/yabai";
       recursive = true;
-};
+    };
 
-## Neovim
-"nvim" = {
-source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/config/nvim";
+    # Neovim
+    "nvim" = {
+      source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/config/nvim";
       recursive = true;
-};
+    };
 
-"skhd" = {
-source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/config/skhd";
+    # skhd
+    "skhd" = {
+      source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/config/skhd";
       recursive = true;
-};
-
-## End of symlink
-
-};
-  # Program configuration
-  programs.gh.enable = true;
- # Program fzf-zsh enabled
- programs.fzf = {
-	enable = true;
-	enableZshIntegration = true;
- };
-  # Enable home-manager to manage itself
-  programs.home-manager.enable = true;
- nixpkgs = {
-    config = {
-      allowUnfree = true;
-      allowUnfreePredicate = (_: true);
     };
   };
-}
 
+  # Zsh configuration file
+  home.file.".zshrc" = {
+    source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/config/zsh/.zshrc";
+  };
+
+  # Nixpkgs configuration
+  nixpkgs.config = {
+    allowUnfree = true;
+    allowUnfreePredicate = (_: true);
+  };
+}
