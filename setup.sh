@@ -52,7 +52,7 @@ esac
 echo "Detected platform: ${machine}"
 if [ "$machine" == "Mac" ]; then
 # --------------------------------------- MacOS ----------------------
-echo ("Starting Installation for MacOS") 
+echo "Starting Installation for MacOS"
 #-- ╔═══════════════════════╗
 #-- ║ Install Nix           ║
 #-- ╚═══════════════════════╝
@@ -76,18 +76,6 @@ else
     echo "Home Manager channel already exists."
 fi
 
-#-- ╔══════════════════════════════╗
-#-- ║ Install Home Manager         ║
-#-- ╚══════════════════════════════╝
-if ! nix-channel --list | grep -q 'home-manager'; then
-    echo "Adding Home Manager channel..."
-    nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
-    nix-channel --update
-    echo "Home Manager channel added successfully."
-else
-    echo "Home Manager channel already exists."
-fi
-
 
 #-- ╔═══════════════════════════════╗
 #-- ║ Update home.nix and flake.nix ║
@@ -96,7 +84,7 @@ fi
 home_nix_path="$home_dir/.dotfiles/home.nix"
 flake_nix_path="$home_dir/.dotfiles/flake.nix"
 
-#--- Update flake.nix
+# ---- Flake.nix ----
 if [ -f "$flake_nix_path" ]; then
     echo "Updating flake.nix with current username: $current_user"
     # Update flakeConfigurations block dynamically
@@ -107,7 +95,7 @@ if [ -f "$flake_nix_path" ]; then
 else
     echo "flake.nix not found. Skipping update."
 fi
-# ---- Home.nix ---
+# ---- Home.nix -----
 if [ -f "$home_nix_path" ]; then
     echo "Updating home.nix with current username: $current_user"
     # Update home.username dynamically
@@ -212,14 +200,13 @@ current_user=$(whoami)
 ## Delete .ssh
 rm -r -f ~/.ssh
 echo "Multipass is ready. Checking for existing instance..."
-
 # Check if the instance already exists
 if multipass list | grep -q "$current_user"; then
-    echo "Instance $current_user already exists. Deleting the old instance..."
-    multipass delete "$current_user" --purge
+    echo "Instance $current_user already exists."
+    echo "Please use the following command to delete it:"
+    echo "multipass delete "$current_user" --purge"
 else
     echo "No existing instance found."
-fi
 
 # Launch a new instance
 echo "Creating new instance..."
@@ -256,10 +243,10 @@ EOF
 
 # Display all Multipass VMs
 ssh $current_user
-
-echo ("Finished for MacOS Installation") 
+fi ## -- If no instance found 
+echo "Finished for MacOS Installation" 
 elif [ "$machine" == "Linux" ]; then
-echo("Dotfiles for Ubuntu")
+echo "Dotfiles for Ubuntu"
 # --------------------------------------- Linux ----------------------
 
 fi
