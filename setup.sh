@@ -162,8 +162,10 @@ if command -v fnm > /dev/null && command -v node > /dev/null && command -v npm >
   echo "fnm, Node.js, and npm are installed. Proceeding with library installation..."
   
   # Run the installation command
-  npm i -g @olrtg/emmet-language-server
+  yarn global add @olrtg/emmet-language-server
+  yarn global add typescript-language-server typescript
   if [ $? -eq 0 ]; then
+
     echo "Library installed successfully!"
   else
     echo "An error occurred while installing the library."

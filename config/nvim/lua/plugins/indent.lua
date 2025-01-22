@@ -2,18 +2,9 @@ return {
         -- ╔═══════════════════════╗
         -- ║    HLChunk            ║
         -- ╚═══════════════════════╝
-        "shellRaining/hlchunk.nvim",
+        "echasnovski/mini.indentscope",
         event = { "BufReadPre", "BufNewFile" },
         config = function()
-            require("hlchunk").setup({
-                chunk = {
-                    enable = true
-                    -- ...
-                },
-                indent = {
-                    enable = true
-                    -- ...
-                }
-            })
+            require("mini.indentscope").setup({})
         end
 }

@@ -23,7 +23,10 @@
     pkgs.obsidian
     pkgs.skhd
     pkgs.tmux
-    ## For fnm
+    ## Utilities
+    pkgs.ripgrep
+    pkgs.fd
+    pkgs.gitmoji-cli
   ];
  programs.zoxide = {
     enable = true;
