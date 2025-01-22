@@ -50,13 +50,9 @@ case "${unameOut}" in
     *)          machine="UNKNOWN:${unameOut}"
 esac
 echo "Detected platform: ${machine}"
-
-#-- ╔═══════════════════════╗
-#-- ║ Step 0: Platform      ║
-#-- ╚═══════════════════════╝
 if [ "$machine" == "Mac" ]; then
-# --- MacOS ---
-
+# --------------------------------------- MacOS ----------------------
+echo ("Starting Installation for MacOS") 
 #-- ╔═══════════════════════╗
 #-- ║ Install Nix           ║
 #-- ╚═══════════════════════╝
@@ -262,8 +258,8 @@ EOF
 ssh $current_user
 
 echo ("Finished for MacOS Installation") 
-# ------------------------------------------------------
 elif [ "$machine" == "Linux" ]; then
 echo("Dotfiles for Ubuntu")
-# --- Linux ---
+# --------------------------------------- Linux ----------------------
+
 fi
