@@ -136,7 +136,7 @@ for dotfile in "$home_dir/.dotfiles"/*; do
 done
 
 #-- ╔═══════════════════════╗
-#-- ║ Step 8: Build Configuration ║
+#-- ║ Step 8: Build         ║
 #-- ╚═══════════════════════╝
 echo "Building configuration..."
 if ! nix run home-manager switch; then
@@ -145,7 +145,7 @@ if ! nix run home-manager switch; then
 fi
 
 #-- ╔═══════════════════════╗
-#-- ║ Step 9: Platform-Specific Actions ║
+#-- ║ Step 9: Platform.     ║
 #-- ╚═══════════════════════╝
 if [ "$machine" == "Mac" ]; then
     echo "Running on macOS"
@@ -175,10 +175,14 @@ else
 fi
 
 ## Multipass
+
 #-- ╔═══════════════════════╗
-#-- ║ Step 11: Multipass Setup ║
+#-- ║ Step 11: Multipass    ║
 #-- ╚═══════════════════════╝
+
 echo "Setup Multipass"
+
+# Check if multipass is setup already?
 pkg=$(which multipass)
 if [ -z "$pkg" ]; then
     echo "Multipass is not installed on your system."
@@ -188,39 +192,60 @@ else
     echo "Multipass is already installed on your system."
 fi
 
-# Wait for Multipass initialization
+# Wait for Multipass start
 echo "Waiting for Multipass to initialize..."
 while [ ! -S /var/run/multipass_socket ]; do
     sleep 1
 done
-echo "Multipass is ready."
+ 
+# Get the current username
+current_user=$(whoami)
 
-# Generate SSH key
-echo "Generating SSH key..."
-ssh-keygen -t rsa -b 4096 -C "$current_user" -f multipass-ssh-key -N "" >/dev/null
-echo "SSH key generated."
+## Delete .ssh
+rm -r -f ~/.ssh
+echo "Multipass is ready. Checking for existing instance..."
 
-# Create the `cloud-init` file
-cloud_init_file=$(mktemp)
-cat <<EOF > "$cloud_init_file"
-#cloud-config
-users:
-  - default
-  - name: $current_user
-    sudo: ALL=(ALL) NOPASSWD:ALL
-    ssh_authorized_keys:
-      - $(cat multipass-ssh-key.pub)
+# Check if the instance already exists
+if multipass list | grep -q "$current_user"; then
+    echo "Instance $current_user already exists. Deleting the old instance..."
+    multipass delete "$current_user" --purge
+else
+    echo "No existing instance found."
+fi
+
+# Launch a new instance
+echo "Creating new instance..."
+# Check for SSH key and create the configuration
+if [ ! -f ~/.ssh/id_rsa.pub ]; then
+    echo "SSH key not found, generating one..."
+    ssh-keygen -t rsa -f ~/.ssh/id_rsa -N ""
+fi
+
+# Create the cloud-init YAML file
+echo "Creating cloud-init configuration..."
+echo -n -e "ssh_authorized_keys:\n  - " > ~/"primary-config.yaml"
+cat ~/.ssh/id_rsa.pub >> ~/"primary-config.yaml"
+
+# Launch the VM with the configuration
+echo "Launching the VM with cloud-init..."
+multipass launch 24.04 --name "$current_user" --memory 3G --disk 30G --cloud-init ~/"primary-config.yaml"
+
+# Check the status of the VM
+echo "Waiting for the VM to start..."
+while ! multipass info "$current_user" | grep -q "Running"; do
+    sleep 1
+done
+echo "VM is ready."
+
+# Update SSH config for easy access
+echo "Configuring SSH for easier access..."
+cat << EOF >> ~/.ssh/config
+Host $current_user
+    HostName $(multipass info "$current_user" | grep IPv4 | awk '{print $2}')
+    User ubuntu
+    IdentityFile ~/.ssh/id_rsa
 EOF
 
-# Create a new Multipass VM with the specified configuration
-echo "Creating a new VM named '$current_user'..."
-multipass launch 24.04 --name "$current_user" --memory 3G --disk 30G --cloud-init "$cloud_init_file"
-# Clean up temporary files
-rm "$cloud_init_file"
-# Display VM info
-echo "Fetching information about the VM '$current_user'..."
-multipass info "$current_user"
-echo "VM created successfully!"
-## running multipass list to show all instance
-multipass list
+# Display all Multipass VMs
+ssh $current_user
 
