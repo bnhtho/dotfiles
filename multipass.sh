@@ -42,7 +42,7 @@ EOF
 
 # Create a new Multipass VM with the specified configuration
 echo "Creating a new VM named '$host_user'..."
-multipass launch ubuntu:24.04 \
+multipass 24.04 \
   --name "$host_user" \
   --memory 3G \
   --disk 30G \
