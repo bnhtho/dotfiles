@@ -30,7 +30,6 @@
     pkgs.fd
     pkgs.fastfetch
     pkgs.btop
-    pkgs.gitmoji-cli
     pkgs.zoxide
     pkgs.yabai
     pkgs.skhd
@@ -47,11 +46,7 @@
     # Zsh
     zsh = {
       enable = true;
-      historySubstringSearch = {
-        searchDownKey = "$terminfo[kcud1]";
-        searchUpKey = "$terminfo[kcuu1]";
-      };
-    };
+   };
 
     # Tmux
     tmux = {
