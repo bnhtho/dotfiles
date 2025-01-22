@@ -173,6 +173,7 @@ if command -v fnm > /dev/null && command -v node > /dev/null && command -v npm >
 else
   echo "fnm, Node.js, or npm is not installed. Please check your environment."
 fi
-## --- Execute script to install multipass 
-sh multipass.sh
+## --- Execute script to install multipass in folder ~/.dotfile
+echo "Running Multipass.sh"
+sh ~/.dotfiles/multipass.sh
 echo "Setup completed successfully!"
