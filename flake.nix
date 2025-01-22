@@ -1,5 +1,5 @@
 {
-  description = "thohnb's Dotfiles";
+  description = "Home Manager configuration of thobui";
 
   inputs = {
     # Specify the source of Home Manager and Nixpkgs.

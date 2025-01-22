@@ -173,12 +173,12 @@ if command -v fnm > /dev/null && command -v node > /dev/null && command -v npm >
 else
   echo "fnm, Node.js, or npm is not installed. Please check your environment."
 fi
-echo "Setup MacOS completed successfully!"
+
+## Multipass
 #-- ╔═══════════════════════╗
-#-- ║ Step 11: Multipass    ║
+#-- ║ Step 11: Multipass Setup ║
 #-- ╚═══════════════════════╝
 echo "Setup Multipass"
-# Check if Multipass is installed
 pkg=$(which multipass)
 if [ -z "$pkg" ]; then
     echo "Multipass is not installed on your system."
@@ -197,15 +197,8 @@ echo "Multipass is ready."
 
 # Generate SSH key
 echo "Generating SSH key..."
-ssh-keygen -t rsa -b 4096 -C "$USER" -f multipass-ssh-key -N ""
+ssh-keygen -t rsa -b 4096 -C "$current_user" -f multipass-ssh-key -N "" >/dev/null
 echo "SSH key generated."
-
-# Copy the public key to clipboard
-pbcopy < multipass-ssh-key.pub
-echo "Public key copied to clipboard. Paste it when prompted."
-
-# Ask for VM username (will also be used as VM name)
-read -p "Enter the name of the host user and VM: " host_user
 
 # Create the `cloud-init` file
 cloud_init_file=$(mktemp)
@@ -213,23 +206,21 @@ cat <<EOF > "$cloud_init_file"
 #cloud-config
 users:
   - default
-  - name: $host_user
+  - name: $current_user
     sudo: ALL=(ALL) NOPASSWD:ALL
     ssh_authorized_keys:
       - $(cat multipass-ssh-key.pub)
 EOF
 
 # Create a new Multipass VM with the specified configuration
-echo "Creating a new VM named '$host_user'..."
-multipass launch 24.04 --name "$host_user" --memory 3G --disk 30 --cloud-init "$cloud_init_file"
+echo "Creating a new VM named '$current_user'..."
+multipass launch 24.04 --name "$current_user" --memory 3G --disk 30G --cloud-init "$cloud_init_file"
 # Clean up temporary files
 rm "$cloud_init_file"
-
 # Display VM info
-echo "Fetching information about the VM '$host_user'..."
-multipass info "$host_user"
-
+echo "Fetching information about the VM '$current_user'..."
+multipass info "$current_user"
 echo "VM created successfully!"
-echo "Your SSH key is stored in 'multipass-ssh-key' and 'multipass-ssh-key.pub'."
-echo "To connect to the VM, use:"
-echo "  ssh -i multipass-ssh-key $host_user@<VM-IP>"
+## running multipass list to show all instance
+multipass list
+
