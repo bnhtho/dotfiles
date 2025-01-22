@@ -5,8 +5,20 @@
   home.username = "thobui";
   home.homeDirectory = "/Users/thobui";
   home.stateVersion = "24.11";
-
-  # Packages
+# Overriding Multipass source with specific version
+  nixpkgs.overlays = [
+    (self: super: {
+      multipass = super.multipass.overrideAttrs (old: {
+        version = "1.14.1";
+        src = pkgs.fetchFromGitHub {
+          owner = "canonical";
+          repo = "multipass";
+          rev = "v1.14.1";
+          sha256 = "07yxvbh1fk8mwsqm62mfjwpr4p65msrqgnw3v8l6ibj8axgqx0ry";
+        };
+      });
+    })
+  ];  # Packages
   home.packages = [
     # Fonts
     pkgs.nerd-fonts.jetbrains-mono
@@ -33,7 +45,11 @@
     pkgs.zoxide
     pkgs.yabai
     pkgs.skhd
-  ];
+
+    # Multipass
+    pkgs.multipass
+
+ ];
 
   # Programs configuration
   programs = {
@@ -46,7 +62,7 @@
     # Zsh
     zsh = {
       enable = true;
-   };
+    };
 
     # Tmux
     tmux = {
@@ -102,6 +118,9 @@
   # Nixpkgs configuration
   nixpkgs.config = {
     allowUnfree = true;
+    allowUnsupportedSystem = true;
     allowUnfreePredicate = (_: true);
+    allowBroken = true;
   };
 }
+
