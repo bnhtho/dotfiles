@@ -42,12 +42,7 @@ EOF
 
 # Create a new Multipass VM with the specified configuration
 echo "Creating a new VM named '$host_user'..."
-multipass launch 24.04 \
-  --name "$host_user" \
-  --memory 3G \
-  --disk 30G \
-  --cloud-init "$cloud_init_file"
-
+multipass launch 24.04 --name "$host_user" --memory 3G --disk 30 --cloud-init "$cloud_init_file"
 # Clean up temporary files
 rm "$cloud_init_file"
 
