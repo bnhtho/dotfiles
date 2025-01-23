@@ -3,7 +3,7 @@ return {
   version = false, -- Use the latest version
   dependencies = {
     { "nvim-lua/plenary.nvim" }, -- Required dependency
-    { "nvim-telescope/telescope-fzf-native.nvim", build = "make" }, -- Example extension
+    { "nvim-telescope/telescope-fzf-native.nvim" }, -- Example extension
   },
   config = function()
     local telescope = require("telescope")

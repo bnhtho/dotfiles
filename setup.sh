@@ -338,7 +338,8 @@ fi
 echo "Installing and using Node.js LTS (22.13.0) with FNM..."
 fnm install 22.13.0
 fnm use 22.13.0
-
+echo "Sourcing Bashrc"
+source ~/.bashrc
 echo "Setup completed!"
 
 fi
