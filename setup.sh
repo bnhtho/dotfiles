@@ -280,6 +280,9 @@ fi ## -- If no instance found
 echo "Finished for MacOS Installation" 
 elif [ "$machine" == "Linux" ]; then
 echo "Dotfiles for Ubuntu"
-# --------------------------------------- Linux ----------------------
+# --------------------------------------- Linux ---------------------
+echo "Updating"
+sudo apt-get dist-upgrade -y
+sudo apt-get update -y
 
 fi

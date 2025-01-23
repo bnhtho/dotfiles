@@ -33,10 +33,23 @@
     pkgs.zoxide
     pkgs.yabai
     pkgs.skhd
+    pkgs.keka
     ];
 
   # Programs configuration
   programs = {
+    # Git
+    programs.git = {
+      enable = true;
+      userName = "Bùi Nguyễn Hoàng Thọ";
+      userEmail = "thohnb@gmail.com";
+      extraConfig = {
+        color.ui = "auto";
+        merge.tool = "meld";
+        core.editor = "neovim";
+        core.excludesfile = "~/.gitignore";
+      };
+    };
     # Zoxide
     zoxide = {
       enable = true;
@@ -100,7 +113,6 @@
   home.file.".zshrc" = {
     source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/config/zsh/.zshrc";
   };
-
   # Nixpkgs configuration
   nixpkgs.config = {
     allowUnfree = true;
