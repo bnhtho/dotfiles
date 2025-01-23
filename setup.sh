@@ -283,12 +283,12 @@ echo "Dotfiles for Ubuntu"
 # --------------------------------------- Linux ---------------------
 echo "Updating"
 sudo apt-get dist-upgrade -y
-sudo apt-get update -y
+sudo apt-get update
 
 echo "Install package manager"
 
 ## Build brew and estinall app
-sudo apt show build-essential curl zip unzip -y
+sudo apt show build-essential curl zip unzip gcc -y
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ## [ Install requirements]
 test -d ~/.linuxbrew && eval "$(~/.linuxbrew/bin/brew shellenv)"
@@ -302,4 +302,8 @@ brew install gh
 brew install clangd # C++
 brew install fastfetch
 brew install btop
+brew install lazygit
+## Symlink
+## Neovim
+ln -s ~/.dotfiles/config/nvim ~/.config/nvim
 fi
