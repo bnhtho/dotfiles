@@ -75,6 +75,47 @@ echo "Detected platform: ${machine}"
 if [ "$machine" == "Mac" ]; then
 # --------------------------------------- MacOS ----------------------
 echo "Starting Installation for MacOS"
+echo "Installing Firefox"
+#-- ╔═══════════════════════╗
+#-- ║ Firefox               ║
+#-- ╚═══════════════════════╝
+# Define the URL for the latest Firefox ESR version
+FIREFOX_ESR_URL="https://download.mozilla.org/?product=firefox-esr-latest&os=osx&lang=en-US"
+
+# Define the output path for the downloaded DMG
+DMG_FILE="/tmp/Firefox-ESR.dmg"
+
+echo "Downloading Firefox ESR..."
+curl -L "$FIREFOX_ESR_URL" -o "$DMG_FILE"
+
+if [[ $? -ne 0 ]]; then
+  echo "Download failed. Exiting."
+  exit 1
+fi
+
+echo "Mounting the DMG..."
+hdiutil attach "$DMG_FILE" -nobrowse -quiet
+if [[ $? -ne 0 ]]; then
+  echo "Failed to mount the DMG. Exiting."
+  exit 1
+fi
+
+echo "Installing Firefox ESR..."
+cp -r /Volumes/Firefox\ ESR/Firefox\ ESR.app /Applications/
+
+if [[ $? -ne 0 ]]; then
+  echo "Failed to copy the application. Exiting."
+  hdiutil detach /Volumes/Firefox\ ESR -quiet
+  exit 1
+fi
+
+echo "Cleaning up..."
+hdiutil detach /Volumes/Firefox\ ESR -quiet
+rm "$DMG_FILE"
+
+echo "Firefox ESR has been installed successfully!"
+
+
 #-- ╔═══════════════════════╗
 #-- ║ Install Nix           ║
 #-- ╚═══════════════════════╝
