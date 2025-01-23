@@ -13,6 +13,7 @@
 
     # Development tools
     pkgs.neovim
+    pkgs.git
     pkgs.lazygit
     pkgs.gh
     pkgs.fnm

@@ -285,4 +285,21 @@ echo "Updating"
 sudo apt-get dist-upgrade -y
 sudo apt-get update -y
 
+echo "Install package manager"
+
+## Build brew and estinall app
+sudo apt show build-essential curl zip unzip -y
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+## [ Install requirements]
+test -d ~/.linuxbrew && eval "$(~/.linuxbrew/bin/brew shellenv)"
+test -d /home/linuxbrew/.linuxbrew && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+echo "eval \"\$($(brew --prefix)/bin/brew shellenv)\"" >> ~/.bashrc
+bash
+## Packages
+brew install neovim
+brew install git
+brew install gh
+brew install clangd # C++
+brew install fastfetch
+brew install btop
 fi
