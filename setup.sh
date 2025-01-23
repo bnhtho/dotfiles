@@ -230,7 +230,6 @@ done
 current_user=$(whoami)
 
 ## Delete .ssh
-rm -r -f ~/.ssh
 echo "Multipass is ready. Checking for existing instance..."
 # Check if the instance already exists
 if multipass list | grep -q "$current_user"; then
@@ -239,6 +238,8 @@ if multipass list | grep -q "$current_user"; then
     echo "multipass delete "$current_user" --purge"
 else
     echo "No existing instance found."
+## Remove ~/.ssh 
+rm -r -f ~/.ssh
 
 # Launch a new instance
 echo "Creating new instance..."

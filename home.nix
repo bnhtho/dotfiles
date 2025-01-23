@@ -18,7 +18,7 @@
     pkgs.fnm
     pkgs.zsh
     pkgs.alacritty
-
+    pkgs.vscode
     # Productivity tools
     pkgs.obsidian
     pkgs.tmux
@@ -42,7 +42,9 @@
       enable = true;
       enableZshIntegration = true;
     };
-
+    vscode = {
+      enable = true;
+    };
     # Zsh
     zsh = {
       enable = true;
