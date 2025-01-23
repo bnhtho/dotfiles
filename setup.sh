@@ -280,30 +280,66 @@ fi ## -- If no instance found
 echo "Finished for MacOS Installation" 
 elif [ "$machine" == "Linux" ]; then
 echo "Dotfiles for Ubuntu"
+#!/bin/bash
+
+# Install FNM
+echo "Installing FNM..."
+curl -fsSL https://fnm.vercel.app/install | bash
+
+# Add FNM to bash
+echo "Adding FNM to bash..."
+eval "$(fnm env --use-on-cd --shell bash)"
+
 # --------------------------------------- Linux ---------------------
-echo "Updating"
+echo "Updating system packages..."
 sudo apt-get dist-upgrade -y
 sudo apt-get update
 
-echo "Install package manager"
-
-## Build brew and estinall app
+echo "Installing package manager dependencies..."
 sudo apt-get install build-essential curl zip unzip gcc -y
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-## [ Install requirements]
-test -d ~/.linuxbrew && eval "$(~/.linuxbrew/bin/brew shellenv)"
-test -d /home/linuxbrew/.linuxbrew && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-echo "eval \"\$($(brew --prefix)/bin/brew shellenv)\"" >> ~/.bashrc
-bash
-## Packages
+
+echo "Installing Homebrew..."
+if ! command -v brew &> /dev/null; then
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  # Configure Homebrew for Linux
+  if [ -d ~/.linuxbrew ]; then
+    eval "$(~/.linuxbrew/bin/brew shellenv)"
+    echo "eval \"\$($(brew --prefix)/bin/brew shellenv)\"" >> ~/.bashrc
+  elif [ -d /home/linuxbrew/.linuxbrew ]; then
+    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+    echo "eval \"\$($(brew --prefix)/bin/brew shellenv)\"" >> ~/.bashrc
+  fi
+else
+  echo "Homebrew is already installed."
+fi
+
+# Reload bashrc
+source ~/.bashrc
+
+echo "Installing packages with Homebrew..."
 brew install neovim
 brew install git
 brew install gh
-brew install clangd # C++
 brew install fastfetch
 brew install btop
 brew install lazygit
-## Symlink
-## Neovim
+brew install fnm
+brew install fzf
+
+# FNM Configuration
+echo "Installing FNM..."
+curl -fsSL https://fnm.vercel.app/install | bash
+eval "$(fnm env --use-on-cd --shell bash)"
+
+# Symlink Neovim configuration
+echo "Creating symlink for Neovim..."
 ln -s ~/.dotfiles/config/nvim ~/.config/nvim
+
+# Install and use Node.js LTS version
+echo "Installing and using Node.js LTS (22.13.0) with FNM..."
+fnm install 22.13.0
+fnm use 22.13.0
+
+echo "Setup completed!"
+
 fi
