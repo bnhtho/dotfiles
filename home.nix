@@ -44,12 +44,7 @@
       enable = true;
       userName = "Bùi Nguyễn Hoàng Thọ";
       userEmail = "thohnb@gmail.com";
-      extraConfig = {
-        color.ui = "auto";
-        merge.tool = "meld";
-        core.editor = "neovim";
-        core.excludesfile = "~/.gitignore";
-      };
+      
     };
     # Zoxide
     zoxide = {
