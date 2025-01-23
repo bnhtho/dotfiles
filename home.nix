@@ -39,7 +39,7 @@
   # Programs configuration
   programs = {
     # Git
-    programs.git = {
+    git = {
       enable = true;
       userName = "Bùi Nguyễn Hoàng Thọ";
       userEmail = "thohnb@gmail.com";
