@@ -12,30 +12,52 @@ echo "Home directory: ${home_dir}"
 #-- ╔═════════════════════════════╗
 #-- ║ Check for Updates on GitHub ║
 #-- ╚═════════════════════════════╝
+
 repo_url="https://github.com/bnhtho/dotfiles"
 local_dir="$home_dir/.dotfiles"
+config_dir="$home_dir/.config"
 target_branch_or_tag="main"
 
+# Kiểm tra nếu thư mục ~/.dotfiles đã tồn tại
 if [ -d "$local_dir" ]; then
     echo "Checking for updates in the repository..."
     git -C "$local_dir" fetch origin "$target_branch_or_tag"
+    
     # Lấy commit hash của local và remote
     local_commit=$(git -C "$local_dir" rev-parse HEAD)
     remote_commit=$(git -C "$local_dir" rev-parse origin/"$target_branch_or_tag")
-
+    
     if [ "$local_commit" != "$remote_commit" ]; then
-        echo "New updates detected on branch '$target_branch_or_tag'. Re-cloning repository..."
-        rm -rf "$local_dir"
+        echo "New updates detected on branch '$target_branch_or_tag'."
+        
+        # Hiển thị log thay đổi
+        echo "Changes since last update:"
+        git -C "$local_dir" log --oneline "$local_commit..$remote_commit"
+        
+        # Xóa thư mục ~/.dotfiles và ~/.config trước khi re-clone
+        echo "Removing existing ~/.config and ~/.dotfiles directories..."
+        rm -rf "$config_dir" "$local_dir"
+        echo "Directories ~/.config and ~/.dotfiles removed successfully."
+        
+        # Clone lại repository
+        echo "Cloning repository..."
         git clone --branch "$target_branch_or_tag" "$repo_url" "$local_dir"
         echo "Repository updated successfully."
     else
         echo "No updates detected. Local repository is up-to-date."
     fi
 else
-    echo "Cloning your repository (branch/tag: $target_branch_or_tag) to ~/.dotfiles..."
+    # Nếu thư mục ~/.dotfiles không tồn tại, tiến hành clone mới
+    echo "Cloning repository (branch/tag: $target_branch_or_tag) to ~/.dotfiles..."
     git clone --branch "$target_branch_or_tag" "$repo_url" "$local_dir"
     echo "Repository cloned successfully."
 fi
+
+# Đảm bảo thư mục ~/.config được tạo lại
+echo "Recreating ~/.config directory..."
+mkdir -p "$config_dir"
+echo "~/.config directory created successfully."
+# ---
 
 #-- ╔═══════════════════════╗
 #-- ║    System Detection   ║
