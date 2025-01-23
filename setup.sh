@@ -296,7 +296,7 @@ sudo apt-get dist-upgrade -y
 sudo apt-get update
 
 echo "Installing package manager dependencies..."
-sudo apt-get install build-essential curl zip unzip gcc -y
+sudo apt-get install build-essential curl zip unzip gcc fasd-y
 
 echo "Installing Homebrew..."
 if ! command -v brew &> /dev/null; then
@@ -325,6 +325,7 @@ brew install btop
 brew install lazygit
 brew install fnm
 brew install fzf
+brew install ripgrep
 
 # Symlink Neovim configuration
 echo "Creating symlink for Neovim..."
