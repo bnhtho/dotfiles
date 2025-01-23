@@ -111,6 +111,8 @@ fi
 #-- ║    Config file        ║
 #-- ╚═══════════════════════╝
 
+home_dir=$(eval echo "~${current_user}")
+
 echo "Creating necessary directories..."
 mkdir -p "$home_dir/.config/nix"
 mkdir -p "$home_dir/.config/home-manager"
@@ -119,21 +121,29 @@ echo "Directories and nix.conf created successfully."
 
 ## Add content of file config to ~/.config/nix
 echo "extra-experimental-features = nix-command flakes" > "$home_dir/.config/nix/nix.conf"
-echo "nix.conf content added successfully".
+echo "nix.conf content added successfully."
 
 #-- ╔═══════════════════════╗
-#-- ║     Symlink.          ║
+#-- ║     Cleanup & Symlink ║
 #-- ╚═══════════════════════╝
+
+echo "Cleaning up existing symlinks in ~/.config/home-manager..."
+for existing_symlink in "$home_dir/.config/home-manager/"*; do
+    if [ -L "$existing_symlink" ]; then
+        rm "$existing_symlink"
+        echo "Removed symlink: $(basename "$existing_symlink")."
+    fi
+done
+
 echo "Linking .dotfiles to home-manager..."
 for dotfile in "$home_dir/.dotfiles"/*; do
     target="$home_dir/.config/home-manager/$(basename "$dotfile")"
-    if [ -e "$target" ] || [ -L "$target" ]; then
-        echo "Symlink already exists for $(basename "$dotfile"). Skipping..."
-    else
-        ln -s "$dotfile" "$target"
-        echo "Created symlink for $(basename "$dotfile")."
-    fi
+    ln -s "$dotfile" "$target"
+    echo "Created symlink for $(basename "$dotfile")."
 done
+
+echo "Setup completed successfully."
+
 
 #-- ╔═══════════════════════╗
 #-- ║       Build           ║
