@@ -288,7 +288,7 @@ sudo apt-get update
 echo "Install package manager"
 
 ## Build brew and estinall app
-sudo apt show build-essential curl zip unzip gcc -y
+sudo apt-get install build-essential curl zip unzip gcc -y
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ## [ Install requirements]
 test -d ~/.linuxbrew && eval "$(~/.linuxbrew/bin/brew shellenv)"
