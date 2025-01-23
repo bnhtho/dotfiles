@@ -326,16 +326,15 @@ brew install lazygit
 brew install fnm
 brew install fzf
 
-# FNM Configuration
-echo "Installing FNM..."
-curl -fsSL https://fnm.vercel.app/install | bash
-eval "$(fnm env --use-on-cd --shell bash)"
-
 # Symlink Neovim configuration
 echo "Creating symlink for Neovim..."
 ln -s ~/.dotfiles/config/nvim ~/.config/nvim
-
 # Install and use Node.js LTS version
+echo "Adding FNM configuration to .bashrc..."
+if ! grep -q 'eval "$(fnm env --use-on-cd --shell bash)"' ~/.bashrc; then
+  echo 'eval "$(fnm env --use-on-cd --shell bash)"' >> ~/.bashrc
+fi
+
 echo "Installing and using Node.js LTS (22.13.0) with FNM..."
 fnm install 22.13.0
 fnm use 22.13.0
