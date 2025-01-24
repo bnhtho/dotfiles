@@ -13,6 +13,6 @@ vim.keymap.set('n', 'sl', '<C-w>l', { desc = 'Move focus to the right window' })
 vim.keymap.set('n', '<C-a>', 'gg<S-v>G')
 
 -- telescope
-vim.keymap.set('n', ';f', builtin.find_files, {})
--- tương tự, gõ `;r` để tìm kiếm nội dung trong file
-vim.keymap.set('n', ';r', builtin.live_grep, {})
+vim.keymap.set('n', '<leader>f', builtin.find_files, {})
+vim.keymap.set('n', '<leader>r', builtin.live_grep, {})
+vim.keymap.set('n', '<leader>o', builtin.oldfiles,{})
