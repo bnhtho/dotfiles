@@ -229,7 +229,6 @@ if command -v fnm > /dev/null && command -v node > /dev/null && command -v npm >
   fi
 else
   echo "fnm, Node.js, or npm is not installed. Please check your environment."
-    source ~/.zshrc
     fnm install --lts
     fnm use 22.10.13
 fi
