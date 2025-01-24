@@ -228,10 +228,14 @@ if command -v fnm > /dev/null && command -v node > /dev/null && command -v npm >
     echo "An error occurred while installing the library."
   fi
 else
-  echo "fnm, Node.js, or npm is not installed. Please check your environment."
+  echo "fnm, Node.js, or npm is not installed. Installing now"
     fnm install --lts
+    sleep 1 
     echo 'eval "$(fnm env --use-on-cd --shell zsh)"' >> ~/.zshrc
+    sleep 1
     fnm use 22.10.13
+    sleep 1 
+    npm -g install yarn
 fi
 
 
