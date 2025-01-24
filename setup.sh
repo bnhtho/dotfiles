@@ -155,19 +155,10 @@ fi
 yarn global add @olrtg/emmet-language-server
 yarn global add typescript-language-server typescript
 
-
+## Finish
+ln -s ~/.nix-profiles/applications ~/Applications
 elif [ "$machine" == "Linux" ]; then
 echo "Dotfiles for Ubuntu"
-#!/bin/bash
-
-# Install FNM
-echo "Installing FNM..."
-curl -fsSL https://fnm.vercel.app/install | bash
-
-# Add FNM to bash
-echo "Adding FNM to bash..."
-eval "$(fnm env --use-on-cd --shell bash)"
-
 # --------------------------------------- Linux ---------------------
 echo "Updating system packages..."
 sudo apt-get dist-upgrade -y
