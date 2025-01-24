@@ -23,8 +23,10 @@ curl -ls https://raw.githubusercontent.com/bnhtho/dotfiles/refs/heads/main/setup
 Restart shell
 
 ## Install Multipass (Linux)
-Execute `multipass.sh` file
+Execute `ubuntu.sh` file
 
+```bash
+```
 ## Suggestion
 Install hyperkey app here to bind `CapsLock` to `Alt(Option)`
 ```bash

@@ -157,8 +157,31 @@ yarn global add typescript-language-server typescript
 
 ## Finish
 ln -s ~/.nix-profiles/applications ~/Applications
+
+
+
+#-- ╔═══════════════════════╗
+#-- ║ Multipass             ║
+#-- ╚═══════════════════════╝
+
+# NOTE: Create Ubuntu Instance 
+# Ubuntu:24.04 LTS
+# Instance Name : Username
+
+echo "Setup Multipass"
+
+# Check if multipass is setup already?
+pkg=$(which multipass)
+if [ -z "$pkg" ]; then
+    echo "Multipass is not installed on your system."
+    curl -L -C - https://github.com/canonical/multipass/releases/download/v1.14.1/multipass-1.14.1+mac-Darwin.pkg --output /tmp/multipass-1.14.1+mac-Darwin.pkg
+    sudo installer -pkg /tmp/multipass-1.14.1+mac-Darwin.pkg -target /
+else
+    echo "Multipass is already installed on your system. Please restart the shell"
+fi
+
 elif [ "$machine" == "Linux" ]; then
-echo "Dotfiles for Ubuntu"
+
 # --------------------------------------- Linux ---------------------
 echo "Updating system packages..."
 sudo apt-get dist-upgrade -y
