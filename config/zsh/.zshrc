@@ -11,8 +11,6 @@ source ~/.dotfiles/config/zsh/configs/autosuggestion/zsh-autosuggestions.plugin.
  eval "$(zoxide init zsh)"
 ## FZF
  source <(fzf --zsh)
-## ZSH
-eval "$(fnm env --use-on-cd --shell zsh)"
 ## Tweak
 DISABLE_UNTRACKED_FILES_DIRTY="true"
 ### Themes
