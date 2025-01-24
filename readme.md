@@ -1,5 +1,5 @@
 <h3 style="text-align:center;">dotfiles</h3>
-![Screenshot](image.png)
+<!-- ![Screenshot](image.png) -->
 Run the script to install `.dotfile` for both Linux and MacOS
 ```bash
 curl -ls https://raw.githubusercontent.com/bnhtho/dotfiles/refs/heads/main/setup.sh | bash
