@@ -35,6 +35,7 @@
     pkgs.yabai
     pkgs.skhd
     pkgs.keka
+    pkgs.appcleaner
     ];
 
   # Programs configuration

@@ -1,4 +1,9 @@
 ## Setup highlight
+autoload -U compinit; compinit
+
+## ZSH-tab
+source ~/.dotfiles/config/zsh/configs/fzf-tab/fzf-tab.plugin.zsh
+
 source ~/.dotfiles/config/zsh/configs/highlight/zsh-syntax-highlighting.plugin.zsh
 source ~/.dotfiles/config/zsh/configs/autosuggestion/zsh-autosuggestions.plugin.zsh
 ## Setup theme

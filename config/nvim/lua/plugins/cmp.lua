@@ -104,45 +104,7 @@ return{
                                 -- close completion menu
                                 ["<C-c>"] = cmp.mapping.close(),
                                 -- Super-tab mapping
-                                ["<Tab>"] = cmp.mapping(
-                                    function(fallback)
-                                        if cmp.visible() then
-                                            -- regular selection
-                                            cmp.confirm(
-                                                {
-                                                    behavior = cmp.ConfirmBehavior.Insert,
-                                                    select = true
-                                                }
-                                            )
-                                        elseif luasnip.expand_or_locally_jumpable() then
-                                            -- trigger snippet
-                                            luasnip.expand_or_jump()
-                                        elseif has_words_before() then
-                                            -- if non-whitespace before cursor, trigger completion menu
-                                            cmp.complete()
-                                        else
-                                            fallback()
-                                        end
-                                    end,
-                                    {"i", "s"}
-                                ),
-                                ["<S-Tab>"] = cmp.mapping(
-                                    function(fallback)
-                                        if cmp.visible() then
-                                            -- consume word after cursor (<Tab> behaviour is to prepend to it)
-                                            cmp.confirm(
-                                                {
-                                                    select = true,
-                                                    behavior = cmp.ConfirmBehavior.Replace
-                                                }
-                                            )
-                                        elseif luasnip.jumpable(-1) then
-                                            luasnip.jump(-1)
-                                        else
-                                            fallback()
-                                        end
-                                    end
-                                )
+                                
                             }
                         }
                     )
