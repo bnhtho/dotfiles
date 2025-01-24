@@ -211,35 +211,33 @@ fi
 
 
 #-- ╔═══════════════════════╗
-#-- ║ Neovim                ║
+#-- ║ FNM                   ║
 #-- ╚═══════════════════════╝
-# NOTE: Requirement for Neovim: ban (MacOS)
-# Check if fnm, node, and npm are installed
-if command -v fnm > /dev/null && command -v node > /dev/null && command -v npm > /dev/null; then
-  echo "fnm, Node.js, and npm are installed. Proceeding with library installation..."
-  
-  # Run the installation command
-  yarn global add @olrtg/emmet-language-server
-  yarn global add typescript-language-server typescript
-  if [ $? -eq 0 ]; then
+install_fnm() {
+  fnm install --lts
+  echo 'eval "$(fnm env --use-on-cd --shell zsh)"' >> ~/.zshrc
+  fnm use 22.13.1
+}
 
-    echo "Library installed successfully!"
-  else
-    echo "An error occurred while installing the library."
-  fi
-else
-  echo "fnm, Node.js, or npm is not installed. Installing now"
-    fnm install --lts
-    sleep 1 
-    echo 'eval "$(fnm env --use-on-cd --shell zsh)"' >> ~/.zshrc
-    sleep 1
-    fnm use 22.10.13
-    sleep 1 
-    npm -g install yarn
+install_yarn() {
+  npm -g install yarn
+}
+
+# Ensure necessary dependencies are installed
+if ! command -v fnm > /dev/null || ! command -v node > /dev/null || ! command -v npm > /dev/null; then
+  echo "Some dependencies are missing. Installing..."
+  install_fnm
 fi
 
-
-
+# Install Neovim-related libraries
+yarn global add @olrtg/emmet-language-server
+yarn global add typescript-language-server typescript
+if [ $? -eq 0 ]; then
+  echo "Libraries installed successfully!"
+else
+  echo "Error: Failed to install some libraries. Please check for issues."
+  exit 1
+fi
 #-- ╔═══════════════════════╗
 #-- ║ Multipass             ║
 #-- ╚═══════════════════════╝

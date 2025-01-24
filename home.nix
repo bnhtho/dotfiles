@@ -17,6 +17,7 @@
     pkgs.lazygit
     pkgs.gh
     pkgs.fnm
+    pkgs.yarn
     pkgs.zsh
     pkgs.alacritty
     pkgs.vscode
