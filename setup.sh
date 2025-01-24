@@ -208,36 +208,10 @@ if ! nix run home-manager switch; then
     echo "Error: Failed to build configuration. Check your Home Manager setup."
     exit 1
 fi
-
-
-#-- ╔═══════════════════════╗
-#-- ║ FNM                   ║
-#-- ╚═══════════════════════╝
-install_fnm() {
-  fnm install --lts
-  echo 'eval "$(fnm env --use-on-cd --shell zsh)"' >> ~/.zshrc
-  fnm use 22.13.1
-}
-
-install_yarn() {
-  npm -g install yarn
-}
-
-# Ensure necessary dependencies are installed
-if ! command -v fnm > /dev/null || ! command -v node > /dev/null || ! command -v npm > /dev/null; then
-  echo "Some dependencies are missing. Installing..."
-  install_fnm
-fi
-
 # Install Neovim-related libraries
 yarn global add @olrtg/emmet-language-server
 yarn global add typescript-language-server typescript
-if [ $? -eq 0 ]; then
-  echo "Libraries installed successfully!"
-else
-  echo "Error: Failed to install some libraries. Please check for issues."
-  exit 1
-fi
+
 #-- ╔═══════════════════════╗
 #-- ║ Multipass             ║
 #-- ╚═══════════════════════╝
