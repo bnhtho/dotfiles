@@ -61,7 +61,8 @@
       enable = true;
     };
 
-    # Tmux
+	# fnm
+   # Tmux
     tmux = {
       enable = true;
       terminal = "screen-256color";
