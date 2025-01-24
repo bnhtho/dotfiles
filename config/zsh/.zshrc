@@ -1,9 +1,5 @@
 ## Setup highlight
-autoload -U compinit; compinit
-
 ## ZSH-tab
-source ~/.dotfiles/config/zsh/configs/fzf-tab/fzf-tab.plugin.zsh
-
 source ~/.dotfiles/config/zsh/configs/highlight/zsh-syntax-highlighting.plugin.zsh
 source ~/.dotfiles/config/zsh/configs/autosuggestion/zsh-autosuggestions.plugin.zsh
 ## Setup theme
@@ -13,11 +9,10 @@ source ~/.dotfiles/config/zsh/configs/autosuggestion/zsh-autosuggestions.plugin.
 ## Add zshrc
 #
  eval "$(zoxide init zsh)"
-## FNM
- eval "$(fnm env --use-on-cd --shell zsh)"
 ## FZF
  source <(fzf --zsh)
-
+## ZSH
+eval "$(fnm env --use-on-cd --shell zsh)"
 ## Tweak
 DISABLE_UNTRACKED_FILES_DIRTY="true"
 ### Themes
@@ -52,5 +47,7 @@ zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
 bindkey "^[[A" up-line-or-beginning-search # Up
 bindkey "^[[B" down-line-or-beginning-search # Down
-# Aliase
 
+eval "$(fnm env --use-on-cd --shell zsh)"
+eval "$(fnm env --use-on-cd --shell zsh)"
+eval "$(fnm env --use-on-cd --shell zsh)"
