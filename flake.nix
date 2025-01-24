@@ -1,5 +1,5 @@
 {
-  description = "Home Manager configuration of thobui";
+  description = "Home Manager configuration of thohnb";
 
   inputs = {
     # Specify the source of Home Manager and Nixpkgs.
@@ -15,7 +15,7 @@
       system = "x86_64-darwin";
       pkgs = nixpkgs.legacyPackages.${system};
     in {
-      homeConfigurations."thobui" = home-manager.lib.homeManagerConfiguration {
+      homeConfigurations."thohnb" = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
 
         # Specify your home configuration modules here, for example,

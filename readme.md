@@ -1,9 +1,29 @@
-<h3 style="text-align:center;">dotfiles</h3>
-<!-- ![Screenshot](image.png) -->
+## Instruction
+
+Install xcode
+```bash
+xcode-select --install
+```
+### Install Nix
+```bash
+    curl -L https://nixos.org/nix/install | sh
+```
+### Add channel
+```bash
+    echo "Adding Home Manager channel..."
+    nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
+    nix-channel --update
+    echo "Home Manager channel added successfully."
+```
+
 Run the script to install `.dotfile` for both Linux and MacOS
 ```bash
 curl -ls https://raw.githubusercontent.com/bnhtho/dotfiles/refs/heads/main/setup.sh | bash
 ```
+Restart shell
+
+## Install Multipass (Linux)
+Execute `multipass.sh` file
 
 ## Suggestion
 Install hyperkey app here to bind `CapsLock` to `Alt(Option)`

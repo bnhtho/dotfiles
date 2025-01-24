@@ -2,8 +2,8 @@
 
 {
   # Basic configuration
-  home.username = "thobui";
-  home.homeDirectory = "/Users/thobui";
+  home.username = "thohnb";
+  home.homeDirectory = "/Users/thohnb";
   home.stateVersion = "24.11";
 # Overriding Multipass source with specific version
  ## List packages

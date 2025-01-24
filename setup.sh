@@ -75,63 +75,6 @@ echo "Detected platform: ${machine}"
 if [ "$machine" == "Mac" ]; then
 # --------------------------------------- MacOS ----------------------
 echo "Starting Installation for MacOS"
-
-#!/bin/bash
-
-# Define the URL for the latest Firefox ESR `.pkg` version
-FIREFOX_PKG_URL="https://ftp.mozilla.org/pub/firefox/releases/128.6.0esr/mac/en-US/Firefox%20128.6.0esr.pkg"
-
-# Define the output path for the downloaded `.pkg` file
-PKG_FILE="$HOME/Downloads/Firefox-128.6.0esr.pkg"
-
-# Check if the Firefox ESR `.pkg` is already downloaded
-if [ -f "$PKG_FILE" ]; then
-    echo "Firefox ESR package already downloaded at $PKG_FILE."
-else
-    echo "Downloading Firefox ESR package..."
-    curl -L -C - "$FIREFOX_PKG_URL" --output "$PKG_FILE"
-
-    if [[ $? -ne 0 ]]; then
-        echo "Failed to download Firefox ESR package. Exiting."
-        exit 1
-    fi
-fi
-
-# Install the `.pkg` file
-echo "Installing Firefox ESR..."
-sudo installer -pkg "$PKG_FILE" -target /
-
-if [[ $? -ne 0 ]]; then
-    echo "Failed to install Firefox ESR. Exiting."
-    exit 1
-fi
-
-echo "Firefox ESR has been installed successfully!"
-
-#-- ╔═══════════════════════╗
-#-- ║ Install Nix           ║
-#-- ╚═══════════════════════╝
-if ! command -v nix &> /dev/null; then
-    echo "Nix is not installed. Installing Nix..."
-    curl -L https://nixos.org/nix/install | sh
-    echo "Nix installed successfully."
-else
-    echo "Nix is already installed."
-fi
-
-#-- ╔══════════════════════════════╗
-#-- ║ Install Home Manager         ║
-#-- ╚══════════════════════════════╝
-if ! nix-channel --list | grep -q 'home-manager'; then
-    echo "Adding Home Manager channel..."
-    nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
-    nix-channel --update
-    echo "Home Manager channel added successfully."
-else
-    echo "Home Manager channel already exists."
-fi
-
-
 #-- ╔═══════════════════════════════╗
 #-- ║ Update home.nix and flake.nix ║
 #-- ╚═══════════════════════════════╝
@@ -212,84 +155,7 @@ fi
 yarn global add @olrtg/emmet-language-server
 yarn global add typescript-language-server typescript
 
-#-- ╔═══════════════════════╗
-#-- ║ Multipass             ║
-#-- ╚═══════════════════════╝
 
-# NOTE: Create Ubuntu Instance 
-# Ubuntu:24.04 LTS
-# Instance Name : Username
-
-echo "Setup Multipass"
-
-# Check if multipass is setup already?
-pkg=$(which multipass)
-if [ -z "$pkg" ]; then
-    echo "Multipass is not installed on your system."
-    curl -L -C - https://github.com/canonical/multipass/releases/download/v1.14.1/multipass-1.14.1+mac-Darwin.pkg --output /tmp/multipass-1.14.1+mac-Darwin.pkg
-    sudo installer -pkg /tmp/multipass-1.14.1+mac-Darwin.pkg -target /
-else
-    echo "Multipass is already installed on your system."
-fi
-
-# Wait for Multipass start
-echo "Waiting for Multipass to initialize..."
-while [ ! -S /var/run/multipass_socket ]; do
-    sleep 1
-done
- 
-# Get the current username
-current_user=$(whoami)
-
-## Delete .ssh
-echo "Multipass is ready. Checking for existing instance..."
-# Check if the instance already exists
-if multipass list | grep -q "$current_user"; then
-    echo "Instance $current_user already exists."
-    echo "Please use the following command to delete it:"
-    echo "multipass delete "$current_user" --purge"
-else
-    echo "No existing instance found."
-## Remove ~/.ssh 
-rm -r -f ~/.ssh
-
-# Launch a new instance
-echo "Creating new instance..."
-# Check for SSH key and create the configuration
-if [ ! -f ~/.ssh/id_rsa.pub ]; then
-    echo "SSH key not found, generating one..."
-    ssh-keygen -t rsa -f ~/.ssh/id_rsa -N ""
-fi
-
-# Create the cloud-init YAML file
-echo "Creating cloud-init configuration..."
-echo -n -e "ssh_authorized_keys:\n  - " > ~/"primary-config.yaml"
-cat ~/.ssh/id_rsa.pub >> ~/"primary-config.yaml"
-
-# Launch the VM with the configuration
-echo "Launching the VM with cloud-init..."
-multipass launch 24.04 --name "$current_user" --memory 3G --disk 30G --cloud-init ~/"primary-config.yaml"
-
-# Check the status of the VM
-echo "Waiting for the VM to start..."
-while ! multipass info "$current_user" | grep -q "Running"; do
-    sleep 1
-done
-echo "VM is ready."
-
-# Update SSH config for easy access
-echo "Configuring SSH for easier access..."
-cat << EOF >> ~/.ssh/config
-Host $current_user
-    HostName $(multipass info "$current_user" | grep IPv4 | awk '{print $2}')
-    User ubuntu
-    IdentityFile ~/.ssh/id_rsa
-EOF
-
-# Display all Multipass VMs
-ssh $current_user
-fi ## -- If no instance found 
-echo "Finished for MacOS Installation" 
 elif [ "$machine" == "Linux" ]; then
 echo "Dotfiles for Ubuntu"
 #!/bin/bash
