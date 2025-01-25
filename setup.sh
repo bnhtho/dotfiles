@@ -4,12 +4,15 @@
 #-- ║ Symlinking Dotfile    ║
 #-- ╚═══════════════════════╝
 # NOTE: This dotfiles will symlink between ~/.dotfiles and ~/.config
-echo "Symlink between folder .dotfiles and home"  
+echo "Creating symlinks between .dotfiles folder and home directory"
+
 for f in .??*; do
-    if [ "$f" != ".DS_Store" ]; then
+    # Exclude .DS_Store and .git
+    if [ "$f" != ".DS_Store" ] && [ "$f" != ".git" ]; then
         ln -s "${HOME}/.dotfiles/${f}" "${HOME}/${f}"
     fi
 done
+
 
 #-- ╔═══════════════════════╗
 #-- ║ Firefox Installing    ║
@@ -205,7 +208,7 @@ fi
 NERD_FONTS_BASE_URL="https://github.com/ryanoasis/nerd-fonts/releases/latest/download"
 
 # List of fonts to install (only font names)
-declare -a FONTS=("JetBrainsMono" "FiraCode" "Hack" "RobotoMono")  # Add more font names here
+declare -a FONTS=("JetBrainsMono")  # Add more font names here
 
 FONT_DIR=~/Library/Fonts
 DOWNLOAD_DIR=~/Downloads/nerd-fonts
@@ -303,7 +306,7 @@ else
 fi
 
 #-- ╔═══════════════════════╗
-#-- ║ FZF                ║
+#-- ║ FZF                   ║
 #-- ╚═══════════════════════╝
 echo "Installing FZF"
 
@@ -340,3 +343,37 @@ curl -L https://raw.githubusercontent.com/koekeishiya/yabai/master/scripts/insta
 
     #curl -sL https://raw.githubusercontent.com/koekeishiya/yabai/master/scripts/install.sh
 fi
+
+#-- ╔═══════════════════════╗
+#-- ║ VS Code               ║
+#-- ╚═══════════════════════╝
+# Define the URL, temporary download location, and target application path
+URL="https://code.visualstudio.com/sha/download?build=stable&os=darwin-universal"
+TEMP_DIR=$(mktemp -d)
+ZIP_FILE="$TEMP_DIR/vscode.zip"
+APP_NAME="Visual Studio Code.app"
+APP_DEST="/Applications/$APP_NAME"
+
+# Check if Visual Studio Code is already installed
+if [ -d "$APP_DEST" ]; then
+  echo "Visual Studio Code is already installed at $APP_DEST."
+  exit 0
+fi
+
+# Download the zip file
+echo "Downloading Visual Studio Code..."
+curl -L "$URL" -o "$ZIP_FILE"
+
+# Extract the zip file
+echo "Extracting Visual Studio Code..."
+unzip -q "$ZIP_FILE" -d "$TEMP_DIR"
+
+# Move the .app to the Applications folder
+echo "Moving Visual Studio Code to the Applications folder..."
+mv "$TEMP_DIR/$APP_NAME" "$APP_DEST"
+
+# Clean up
+echo "Cleaning up..."
+rm -rf "$TEMP_DIR"
+
+echo "Visual Studio Code installed successfully!"
