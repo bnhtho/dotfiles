@@ -328,3 +328,15 @@ else
     echo "fzf initialization is already in your .zshrc of dotfiles"
 fi
 
+#-- ╔═══════════════════════╗
+#-- ║ Yabai                 ║
+#-- ╚═══════════════════════╝
+
+if command -v yabai &> /dev/null; then
+    echo "Yabai installed ! Skip."
+else
+    # Install yabai if it's not found
+curl -L https://raw.githubusercontent.com/koekeishiya/yabai/master/scripts/install.sh | sh /dev/stdin
+
+    #curl -sL https://raw.githubusercontent.com/koekeishiya/yabai/master/scripts/install.sh
+fi
