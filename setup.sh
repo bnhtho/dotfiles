@@ -290,3 +290,30 @@ if ! grep -q 'eval "$(zoxide init zsh)"' ~/.dotfiles/.zshrc; then
 else
     echo "Zoxide initialization is already in your .zshrc of dotfiles"
 fi
+
+#-- ╔═══════════════════════╗
+#-- ║ FZF                ║
+#-- ╚═══════════════════════╝
+echo "Installing FZF"
+
+# Check if FZF is already installed
+if command -v fzf &> /dev/null; then
+    echo "fzf is already installed. Skipping installation."
+else
+    # Install fzf if it's not found
+    if [ -d "$HOME/.fzf" ]; then
+        echo "FZF repository already exists, installing from there..."
+    else
+        git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+    fi
+    ~/.fzf/install
+fi
+
+# Add FZF initialization to .zshrc if it's not already there
+if ! grep -q 'source <(fzf --zsh)' ~/.dotfiles/.zshrc; then
+    echo 'source <(fzf --zsh)' >> ~/.dotfiles/.zshrc
+    echo "Added fzf initialization to .zshrc in dotfiles"
+else
+    echo "fzf initialization is already in your .zshrc of dotfiles"
+fi
+
