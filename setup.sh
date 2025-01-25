@@ -1,6 +1,17 @@
 #!/bin/bash
 
 #-- ╔═══════════════════════╗
+#-- ║ Symlinking Dotfile    ║
+#-- ╚═══════════════════════╝
+# NOTE: This dotfiles will symlink between ~/.dotfiles and ~/.config
+echo "Symlink between folder .dotfiles and home"  
+for f in .??*; do
+    if [ "$f" != ".DS_Store" ]; then
+        ln -s "${HOME}/.dotfiles/${f}" "${HOME}/${f}"
+    fi
+done
+
+#-- ╔═══════════════════════╗
 #-- ║ Firefox Installing    ║
 #-- ╚═══════════════════════╝
 
