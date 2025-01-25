@@ -24,9 +24,6 @@ Restart shell
 
 ## Install Multipass (Linux)
 Execute `ubuntu.sh` file
-
-```bash
-```
 ## Suggestion
 Install hyperkey app here to bind `CapsLock` to `Alt(Option)`
 ```bash
