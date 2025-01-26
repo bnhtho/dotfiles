@@ -11,6 +11,7 @@ xcode-select --install
 ```
 
 3 - Remember to activate **yabai** and **skhd** in acessbility before starting
+
 4 - Install node lts version by command:
 ```bash
 nvm install --lts
