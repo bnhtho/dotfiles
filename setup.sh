@@ -48,15 +48,17 @@ fi
 # =====================
 # Symlink
 # =====================
-# NOTE: This dotfiles will symlink between ~/.dotfiles and ~/.config
-echo "Creating symlinks between .dotfiles folder and home directory"
+cd ~/.dotfiles
+for file in .[^.]* *; do
+  # Exclude .git directory
+  if [[ "$file" == ".git" ]]; then
+    continue
+  fi
+	
+  # Symlink files/directories to $HOME
+  ln -sf "$(pwd)/$file" "$HOME/$file"
+done
 
-for f in .??*; do
-    # Exclude .DS_Store, .git, and .config (if it exists)
-    if [ "$f" != ".DS_Store" ] && [ "$f" != ".git" ]; then
-        ln -s "${HOME}/.dotfiles/${f}" "${HOME}/${f}"
-    fi
-done 
 
 # =====================
 # Install Firefox
