@@ -1,7 +1,7 @@
 #!/bin/bash
-#-- ╔════════════════════════════╗
-#-- ║ Check updates and clone    ║
-#-- ╚════════════════════════════╝
+# =====================
+# Clone dotfiles 
+# =====================
 repo_url="https://github.com/bnhtho/dotfiles"
 target_branch_or_tag="main"
 local_dir="$HOME/.dotfiles"  # Setting local directory to $HOME/dotfiles
@@ -45,9 +45,9 @@ else
     git -C "$local_dir" checkout "$target_branch_or_tag"
 fi
 
-#-- ╔═══════════════════════╗
-#-- ║ Symlinking Dotfile    ║
-#-- ╚═══════════════════════╝
+# =====================
+# Symlink
+# =====================
 # NOTE: This dotfiles will symlink between ~/.dotfiles and ~/.config
 echo "Creating symlinks between .dotfiles folder and home directory"
 
@@ -59,9 +59,9 @@ for f in .??*; do
 done
 
 
-#-- ╔═══════════════════════╗
-#-- ║ Firefox Installing    ║
-#-- ╚═══════════════════════╝
+# =====================
+# Install Firefox
+# =====================
 
 # Define the URL for the latest Firefox ESR `.pkg` version
 FIREFOX_PKG_URL="https://ftp.mozilla.org/pub/firefox/releases/128.6.0esr/mac/en-US/Firefox%20128.6.0esr.pkg"
@@ -80,7 +80,6 @@ else
 
         if [[ $? -ne 0 ]]; then
             echo "Failed to download Firefox ESR package. Exiting."
-            exit 1
         fi
     fi
 
@@ -90,15 +89,15 @@ else
 
     if [[ $? -ne 0 ]]; then
         echo "Failed to install Firefox ESR. Exiting."
-        exit 1
     fi
     echo "Firefox ESR has been installed successfully!"
 fi
 
 
-#-- ╔═══════════════════════╗
-#-- ║ Alacritty Installing  ║
-#-- ╚═══════════════════════╝
+# =====================
+# Install ALACRITTY
+# =====================
+
 
 # Define the URL for the latest Alacritty `.dmg` file
 ALACRITTY_DMG_URL="https://github.com/alacritty/alacritty/releases/download/v0.15.0/Alacritty-v0.15.0.dmg"
@@ -117,7 +116,6 @@ else
 
         if [[ $? -ne 0 ]]; then
             echo "Failed to download Alacritty DMG package. Exiting."
-            exit 1
         fi
     fi
 
@@ -128,7 +126,6 @@ else
     # Check if mounting was successful
     if [[ $? -ne 0 ]]; then
         echo "Failed to mount Alacritty DMG. Exiting."
-        exit 1
     fi
 
     # Install Alacritty by copying it to /Applications
@@ -141,16 +138,17 @@ else
 
     if [[ $? -ne 0 ]]; then
         echo "Failed to eject Alacritty DMG. Exiting."
-        exit 1
+        
     fi
 
     echo "Alacritty has been installed successfully!"
 fi
 
 
-#-- ╔═══════════════════════╗
-#-- ║ GH CLI Installing     ║
-#-- ╚═══════════════════════╝
+# =====================
+# Install GH
+# =====================
+
 
 # Fetch the latest GitHub CLI release URL for macOS (Universal .pkg)
 GH_PKG_URL=$(curl -s "https://api.github.com/repos/cli/cli/releases/latest" \
@@ -162,7 +160,7 @@ GH_PKG_URL=$(curl -s "https://api.github.com/repos/cli/cli/releases/latest" \
 # Check if the URL was fetched correctly
 if [[ -z "$GH_PKG_URL" ]]; then
     echo "Failed to find download URL for the latest GitHub CLI release. Exiting."
-    exit 1
+    
 fi
 
 # Define the output path for the downloaded `.pkg` file
@@ -179,7 +177,7 @@ else
     # Check if the download was successful
     if [[ $? -ne 0 ]]; then
         echo "Failed to download GitHub CLI package. Exiting."
-        exit 1
+        
     fi
 
     # Install the .pkg file
@@ -193,9 +191,10 @@ else
 fi
 
 
-#-- ╔═══════════════════════╗
-#-- ║ Neovim Installing     ║
-#-- ╚═══════════════════════╝
+# =====================
+# Install Neovim
+# =====================
+
 
 # Check if Neovim is already installed
 if command -v nvim &> /dev/null; then
@@ -228,9 +227,9 @@ else
     echo "Neovim has been installed successfully!"
 fi
 
-#-- ╔═══════════════════════╗
-#-- ║ NVM                   ║
-#-- ╚═══════════════════════╝
+# =====================
+# Install NVM
+# =====================
 echo "Install Node Package Manager"
 
 # Check if script installed
@@ -247,7 +246,10 @@ else
 fi
 
 
-#!/bin/bash
+# =====================
+# Font Install
+# =====================
+
 
 # Base URL for Nerd Fonts GitHub releases
 NERD_FONTS_BASE_URL="https://github.com/ryanoasis/nerd-fonts/releases/latest/download"
@@ -320,9 +322,10 @@ for font_name in "${FONTS[@]}"; do
     fi
 done
 
-#-- ╔═══════════════════════╗
-#-- ║ Zoxide                ║
-#-- ╚═══════════════════════╝
+# =====================
+# Install Zoxide
+# =====================
+
 
 echo "Setup Zoxide"
 
@@ -350,9 +353,10 @@ else
     echo "Zoxide initialization is already in your .zshrc of dotfiles"
 fi
 
-#-- ╔═══════════════════════╗
-#-- ║ FZF                   ║
-#-- ╚═══════════════════════╝
+# =====================
+# Install FZF
+# =====================
+
 echo "Installing FZF"
 
 # Check if FZF is already installed
@@ -376,24 +380,25 @@ else
     echo "fzf initialization is already in your .zshrc of dotfiles"
 fi
 
-#-- ╔═══════════════════════╗
-#-- ║ Yabai                 ║
-#-- ╚═══════════════════════╝
+# =====================
+# Install Yabai
+# =====================
 
 if command -v yabai &> /dev/null; then
     echo "Yabai installed ! Skip."
 else
     # Install yabai if it's not found
 curl -L https://raw.githubusercontent.com/koekeishiya/yabai/master/scripts/install.sh | sh /dev/stdin
-
-    #curl -sL https://raw.githubusercontent.com/koekeishiya/yabai/master/scripts/install.sh
 fi
 
-#-- ╔═══════════════════════╗
-#-- ║ VS Code               ║
-#-- ╚═══════════════════════╝
+#!/bin/bash
+
+# =====================
+# Install Visual Studio Code
+# =====================
+
 # Define the URL, temporary download location, and target application path
-URL="https://code.visualstudio.com/sha/download?build=stable&os=darwin-universal"
+VS_CODE_URL="https://code.visualstudio.com/sha/download?build=stable&os=darwin-universal"
 TEMP_DIR=$(mktemp -d)
 ZIP_FILE="$TEMP_DIR/vscode.zip"
 APP_NAME="Visual Studio Code.app"
@@ -402,25 +407,78 @@ APP_DEST="/Applications/$APP_NAME"
 # Check if Visual Studio Code is already installed
 if [ -d "$APP_DEST" ]; then
   echo "Visual Studio Code is already installed at $APP_DEST."
-  exit 0
+else
+  # Download the zip file
+  echo "Downloading Visual Studio Code..."
+  curl -L "$VS_CODE_URL" -o "$ZIP_FILE"
+
+  # Extract the zip file
+  echo "Extracting Visual Studio Code..."
+  unzip -q "$ZIP_FILE" -d "$TEMP_DIR"
+
+  # Move the .app to the Applications folder
+  echo "Moving Visual Studio Code to the Applications folder..."
+  mv "$TEMP_DIR/$APP_NAME" "$APP_DEST"
+
+  # Clean up
+  echo "Cleaning up..."
+  rm -rf "$TEMP_DIR"
+
+  echo "Visual Studio Code installed successfully!"
 fi
 
-# Download the zip file
-echo "Downloading Visual Studio Code..."
-curl -L "$URL" -o "$ZIP_FILE"
+# =====================
+# Install skhd
+# =====================
 
-# Extract the zip file
-echo "Extracting Visual Studio Code..."
-unzip -q "$ZIP_FILE" -d "$TEMP_DIR"
+# Define the repository URL and installation path
+REPO_URL="https://github.com/koekeishiya/skhd.git"
+INSTALL_DIR="$HOME/skhd"
+SYSTEM_BIN_DIR="/usr/local/bin"
+SKHD_BIN="$INSTALL_DIR/bin/skhd"  # The path to the actual skhd binary
 
-# Move the .app to the Applications folder
-echo "Moving Visual Studio Code to the Applications folder..."
-mv "$TEMP_DIR/$APP_NAME" "$APP_DEST"
+# Check if skhd is already installed
+if command -v skhd &> /dev/null; then
+    echo "skhd is already installed. Skipping installation."
+else
+    # Clone the repository if it's not already there
+    if [ ! -d "$INSTALL_DIR" ]; then
+        echo "Cloning skhd repository..."
+        git clone "$REPO_URL" "$INSTALL_DIR"
+    else
+        echo "skhd repository already exists. Skipping clone."
+    fi
 
-# Clean up
-echo "Cleaning up..."
-rm -rf "$TEMP_DIR"
+    # Enter the skhd directory
+    cd "$INSTALL_DIR" || exit
 
-echo "Visual Studio Code installed successfully!"
+    # Build and install skhd
+    echo "Building and installing skhd..."
+    make install
 
+    # Install the example launch agent
+    echo "Installing launch agent..."
+    cp examples/com.koekeishiya.skhd.plist ~/Library/LaunchAgents/com.koekeishiya.skhd.plist
 
+    # Load the launch agent
+    echo "Loading launch agent..."
+    launchctl load -w ~/Library/LaunchAgents/com.koekeishiya.skhd.plist
+
+    # Check if /usr/local/bin exists, and if not, attempt to create it
+    if [ ! -d "$SYSTEM_BIN_DIR" ]; then
+        echo "/usr/local/bin does not exist. Creating it..."
+        sudo mkdir -p "$SYSTEM_BIN_DIR"
+        sudo chown $(whoami):$(whoami) "$SYSTEM_BIN_DIR"
+    fi
+
+    # Check if skhd binary exists in the build directory, then move it to /usr/local/bin
+    if [ -f "$SKHD_BIN" ]; then
+        echo "Moving skhd binary to /usr/local/bin..."
+        sudo mv "$SKHD_BIN" "$SYSTEM_BIN_DIR/skhd"
+    else
+        echo "Error: skhd binary not found in $INSTALL_DIR/bin"
+        exit 1
+    fi
+
+    echo "skhd installation and configuration completed."
+fi
