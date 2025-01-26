@@ -52,12 +52,11 @@ fi
 echo "Creating symlinks between .dotfiles folder and home directory"
 
 for f in .??*; do
-    # Exclude .DS_Store and .git
+    # Exclude .DS_Store, .git, and .config (if it exists)
     if [ "$f" != ".DS_Store" ] && [ "$f" != ".git" ]; then
         ln -s "${HOME}/.dotfiles/${f}" "${HOME}/${f}"
     fi
-done
-
+done 
 
 # =====================
 # Install Firefox
@@ -435,7 +434,6 @@ fi
 REPO_URL="https://github.com/koekeishiya/skhd.git"
 INSTALL_DIR="$HOME/skhd"
 SYSTEM_BIN_DIR="/usr/local/bin"
-SKHD_BIN="$INSTALL_DIR/bin/skhd"  # The path to the actual skhd binary
 
 # Check if skhd is already installed
 if command -v skhd &> /dev/null; then
@@ -456,14 +454,7 @@ else
     echo "Building and installing skhd..."
     make install
 
-    # Install the example launch agent
-    echo "Installing launch agent..."
-    cp examples/com.koekeishiya.skhd.plist ~/Library/LaunchAgents/com.koekeishiya.skhd.plist
-
-    # Load the launch agent
-    echo "Loading launch agent..."
-    launchctl load -w ~/Library/LaunchAgents/com.koekeishiya.skhd.plist
-
+   
     # Check if /usr/local/bin exists, and if not, attempt to create it
     if [ ! -d "$SYSTEM_BIN_DIR" ]; then
         echo "/usr/local/bin does not exist. Creating it..."
@@ -471,14 +462,62 @@ else
         sudo chown $(whoami):$(whoami) "$SYSTEM_BIN_DIR"
     fi
 
-    # Check if skhd binary exists in the build directory, then move it to /usr/local/bin
-    if [ -f "$SKHD_BIN" ]; then
-        echo "Moving skhd binary to /usr/local/bin..."
-        sudo mv "$SKHD_BIN" "$SYSTEM_BIN_DIR/skhd"
+    # Link skhd to /usr/local/bin for global access
+    if [ ! -f "$SYSTEM_BIN_DIR/skhd" ]; then
+        echo "Adding skhd to $SYSTEM_BIN_DIR..."
+        sudo ln -s "$INSTALL_DIR/skhd" "$SYSTEM_BIN_DIR/skhd"
     else
-        echo "Error: skhd binary not found in $INSTALL_DIR/bin"
-        exit 1
+        echo "skhd is already in $SYSTEM_BIN_DIR."
     fi
 
     echo "skhd installation and configuration completed."
+fi
+
+
+# =====================
+# Install and Run Machinna
+# =====================
+#!/bin/bash
+
+# Define variables
+URL="https://github.com/Macchina-CLI/macchina/releases/download/v6.4.0/macchina-v6.4.0-macos-x86_64.tar.gz"
+TEMP_DIR="/tmp/macchina_install"
+TARGET_DIR="$HOME/bin"
+BINARY_NAME="macchina"
+
+# Create necessary directories
+mkdir -p "$TEMP_DIR" "$TARGET_DIR"
+
+# Download macchina
+echo "Downloading macchina..."
+curl -L -o "$TEMP_DIR/macchina.tar.gz" "$URL"
+
+# Extract the tar.gz
+echo "Extracting macchina..."
+tar -xzf "$TEMP_DIR/macchina.tar.gz" -C "$TEMP_DIR"
+
+# Move the binary to the local bin directory
+echo "Installing macchina to $TARGET_DIR..."
+mv "$TEMP_DIR/$BINARY_NAME" "$TARGET_DIR/"
+
+# Make it executable
+echo "Setting executable permissions..."
+chmod +x "$TARGET_DIR/$BINARY_NAME"
+
+# Add $HOME/bin to PATH if not already in PATH
+if [[ ":$PATH:" != *":$HOME/bin:"* ]]; then
+  echo "Adding $HOME/bin to PATH..."
+  echo 'export PATH="$HOME/bin:$PATH"' >> "$HOME/.zshrc" # Adjust for your shell, e.g., .zshrc for Zsh
+  export PATH="$HOME/bin:$PATH"
+fi
+
+# Clean up
+echo "Cleaning up temporary files..."
+rm -rf "$TEMP_DIR"
+
+# Verify installation
+if command -v macchina >/dev/null 2>&1; then
+  echo "macchina installed successfully! Run 'macchina' to use it."
+else
+  echo "Installation failed. Please check the steps."
 fi
