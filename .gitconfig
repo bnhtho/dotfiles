@@ -1,0 +1,8 @@
+[core]
+    editor = nvim
+[status]
+    short = true
+[user]
+    name = Bùi Nguyễn Hoàng Thọ
+    email = thohnb@gmail.com
+

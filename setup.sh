@@ -422,3 +422,5 @@ echo "Cleaning up..."
 rm -rf "$TEMP_DIR"
 
 echo "Visual Studio Code installed successfully!"
+
+
