@@ -3,7 +3,6 @@
 # Installing Dotfiles
 # =====================
 #!/bin/bash
-git clone https://github.com/bnhtho/dotfiles ~/.dotfiles
 # Define source and destination
 SRC_DIR="$HOME/.dotfiles"
 DEST_DIR="$HOME"
@@ -275,12 +274,12 @@ fi
 # =====================
 # Install Yabai with sudo
 # =====================
-if command -v yabai & > /dev/null; then
+if command -v yabai &> /dev/null; then
     echo "Yabai is already installed. Using yabai --start-service to running."
 else
     # Download the macOS version of yabau
     curl -L https://raw.githubusercontent.com/koekeishiya/yabai/master/scripts/install.sh | sudo bash /dev/stdin
-    fi
+fi
  ##=====================
  ## Install Visual Studio Code
  ##=====================
@@ -405,7 +404,7 @@ else
   echo "Hugo installation completed!"
 fi
 
- # =====================
+# =====================
 # Install Bat
 # =====================
 if command -v bat >/dev/null 2>&1; then
@@ -414,21 +413,15 @@ else
   # Define the GitHub API URL for the latest release of bat
   API_URL="https://api.github.com/repos/sharkdp/bat/releases/latest"
 
-  # Detect CPU architecture
-  ARCH=$(uname -m)
-  if [ "$ARCH" = "arm64" ]; then
-    ARCH_SUFFIX="aarch64-apple-darwin"
-  elif [ "$ARCH" = "x86_64" ]; then
-    ARCH_SUFFIX="x86_64-apple-darwin"
-  else
-    echo "Unsupported architecture: $ARCH"
-    exit 1
-  fi
+  # Detect CPU architecture (keeping x86_64 for Intel Macs)
+  ARCH="x86_64"  # Force Intel (darwin) architecture as per your request
+  ARCH_SUFFIX="x86_64-apple-darwin"
 
   # Fetch the latest release info and extract the download URL for the desired file
   ASSET_URL=$(curl -s $API_URL | grep "browser_download_url" | grep "$ARCH_SUFFIX" | cut -d '"' -f 4)
-    echo "debug asset url of bat"
-    echo "$ASSET_URL"
+  echo "debug asset url of bat"
+  echo "$ASSET_URL"
+
   # Check if the asset URL was found
   if [ -z "$ASSET_URL" ]; then
     echo "Error: Could not find the latest release for $ARCH_SUFFIX."
@@ -437,15 +430,15 @@ else
 
   # Download, extract, and install
   echo "Downloading from $ASSET_URL..."
-  curl -L -o bat.tar.gz "$ASSET_URL"
+  curl -L -o /tmp/bat.tar.gz "$ASSET_URL"
   echo "Extracting bat.tar.gz..."
-  tar -xzf bat.tar.gz
+  tar -xzf /tmp/bat.tar.gz -C /tmp
   echo "Installing bat to /usr/local/bin..."
-  sudo mv bat*/bat /usr/local/bin/
+  sudo mv /tmp/bat*/bat /usr/local/bin/
 
   # Clean up
-  rm -rf bat.tar.gz bat*
+  rm -rf /tmp/bat.tar.gz /tmp/bat*
+  echo "Bat installation completed!"
 fi
-
 
 
