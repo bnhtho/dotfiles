@@ -438,6 +438,8 @@ else
     echo "Copying skhd to $SYSTEM_BIN_DIR..."
     sudo cp "$INSTALL_DIR/bin/skhd" "$SYSTEM_BIN_DIR"
     echo "skhd installation and configuration completed."
+    echo "clean up $INSTAL_DIR"
+    rm -r -f $INSTALL_DIR
 fi
 
 
