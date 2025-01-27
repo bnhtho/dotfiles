@@ -443,14 +443,9 @@ else
         sudo chown $(whoami):$(whoami) "$SYSTEM_BIN_DIR"
     fi
 
-    # Copy skhd to /usr/local/bin for global access
-	if [ ! -f "$SYSTEM_BIN_DIR/skhd" ]; then
+    
     echo "Copying skhd to $SYSTEM_BIN_DIR..."
-    sudo cp "$INSTALL_DIR/skhd" "$SYSTEM_BIN_DIR/skhd"
-	else
-    echo "skhd is already in $SYSTEM_BIN_DIR."
-	fi
-
+    sudo cp "$INSTALL_DIR/bin/skhd" "$SYSTEM_BIN_DIR"
     echo "skhd installation and configuration completed."
 fi
 
