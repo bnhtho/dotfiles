@@ -435,15 +435,6 @@ else
     echo "Building and installing skhd..."
     make install
 
-   
-    # Check if /usr/local/bin exists, and if not, attempt to create it
-    if [ ! -d "$SYSTEM_BIN_DIR" ]; then
-        echo "/usr/local/bin does not exist. Creating it..."
-        sudo mkdir -p "$SYSTEM_BIN_DIR"
-        sudo chown $(whoami):$(whoami) "$SYSTEM_BIN_DIR"
-    fi
-
-    
     echo "Copying skhd to $SYSTEM_BIN_DIR..."
     sudo cp "$INSTALL_DIR/bin/skhd" "$SYSTEM_BIN_DIR"
     echo "skhd installation and configuration completed."
