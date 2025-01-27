@@ -391,44 +391,45 @@ fi
  sudo mv hugo /usr/local/bin/
  fi
  # =====================
- # Install Bat
- # =====================
- if command -v bat >/dev/null 2>&1; then
-   echo "Bat already installed successfully! Run 'bat <file-to-read>' to use it."
- else
-   # Define the GitHub API URL for the latest release of bat
-   API_URL="https://api.github.com/repos/sharkdp/bat/releases/latest"
+# Install Bat
+# =====================
+if command -v bat >/dev/null 2>&1; then
+  echo "Bat already installed successfully! Run 'bat <file-to-read>' to use it."
+else
+  # Define the GitHub API URL for the latest release of bat
+  API_URL="https://api.github.com/repos/sharkdp/bat/releases/latest"
 
-   # Detect CPU architecture
-   ARCH=$(uname -m)
-   if [ "$ARCH" = "arm64" ]; then
-     FILE="bat-v0.25.0-aarch64-apple-darwin.tar.gz"
-   elif [ "$ARCH" = "x86_64" ]; then
-     FILE="bat-v0.25.0-x86_64-apple-darwin.tar.gz"
-   else
-     echo "Unsupported architecture: $ARCH"
-     exit 1
-   fi
+  # Detect CPU architecture
+  ARCH=$(uname -m)
+  if [ "$ARCH" = "arm64" ]; then
+    ARCH_SUFFIX="aarch64-apple-darwin"
+  elif [ "$ARCH" = "x86_64" ]; then
+    ARCH_SUFFIX="x86_64-apple-darwin"
+  else
+    echo "Unsupported architecture: $ARCH"
+    exit 1
+  fi
 
-   # Fetch the latest release info and extract the download URL for the desired file
-   ASSET_URL=$(curl -s $API_URL | grep "browser_download_url" | grep "$FILE" | cut -d '"' -f 4)
+  # Fetch the latest release info and extract the download URL for the desired file
+  ASSET_URL=$(curl -s $API_URL | grep "browser_download_url" | grep "$ARCH_SUFFIX" | cut -d '"' -f 4)
 
-   # Check if the asset URL was found
-   if [ -z "$ASSET_URL" ]; then
-     echo "Error: Could not find the specified asset for $FILE."
-     exit 1
-   fi
+  # Check if the asset URL was found
+  if [ -z "$ASSET_URL" ]; then
+    echo "Error: Could not find the latest release for $ARCH_SUFFIX."
+    exit 1
+  fi
 
-   # Download, extract, and install
-   echo "Downloading from $ASSET_URL..."
-   curl -L -o bat.tar.gz "$ASSET_URL"
-   echo "Extracting bat.tar.gz..."
-   tar -xzf bat.tar.gz
-   echo "Installing bat to /usr/local/bin..."
-   sudo mv bat*/bat /usr/local/bin/
+  # Download, extract, and install
+  echo "Downloading from $ASSET_URL..."
+  curl -L -o bat.tar.gz "$ASSET_URL"
+  echo "Extracting bat.tar.gz..."
+  tar -xzf bat.tar.gz
+  echo "Installing bat to /usr/local/bin..."
+  sudo mv bat*/bat /usr/local/bin/
 
-   # Clean up
-   rm -rf bat.tar.gz bat*
- fi 
+  # Clean up
+  rm -rf bat.tar.gz bat*
+fi
+
 
 
