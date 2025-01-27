@@ -1,15 +1,33 @@
-## Setup highlight
-## ZSH-tab
-source ~/.dotfiles/.config/zsh/configs/highlight/zsh-syntax-highlighting.plugin.zsh
+# =====================
+# Module: History Setup
+# =====================
+HISTFILE=~/.zsh-histfile
+HISTSIZE=200000000
+autoload -U up-line-or-beginning-search
+autoload -U down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+bindkey "^[[A" up-line-or-beginning-search # Up
+bindkey "^[[B" down-line-or-beginning-search # Down
+
+
+# =====================
+# Module: Highlight
+# =====================
 source ~/.dotfiles/.config/zsh/configs/autosuggestion/zsh-autosuggestions.plugin.zsh
-## Setup theme
-#source ~/.config/zsh/theme/cypher.zsh-theme
- source ~/.dotfiles/.config/zsh/theme/git-prompt.zsh/git-prompt.zsh
- source ~/.dotfiles/.config/zsh/theme/git-prompt.zsh/examples/pure.zsh
-## Add zshrc
-## Tweak
+
+# =====================
+# Module: Theme Setup
+# =====================
+# Uncomment to use the cypher theme
+# source ~/.config/zsh/theme/cypher.zsh-theme
+
+# Git prompt theme setup
+source ~/.dotfiles/.config/zsh/theme/git-prompt.zsh/git-prompt.zsh
+source ~/.dotfiles/.config/zsh/theme/git-prompt.zsh/examples/pure.zsh
+
+# Git prompt theme customizations
 DISABLE_UNTRACKED_FILES_DIRTY="true"
-### Themes
 ZSH_THEME_GIT_PROMPT_PREFIX="["
 ZSH_THEME_GIT_PROMPT_SUFFIX="] "
 ZSH_THEME_GIT_PROMPT_SEPARATOR="|"
@@ -27,26 +45,26 @@ ZSH_THEME_GIT_PROMPT_UNSTAGED="%{$fg[red]%} + "
 ZSH_THEME_GIT_PROMPT_UNTRACKED="…" 
 ZSH_THEME_GIT_PROMPT_STASHED="%{$fg[blue]%} 🏳️ " 
 ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg_bold[green]%}"
-## -- Setup fnm -- 
-if type fnm >/dev/null 2>&1; then
-  eval "$(fnm env --use-on-cd --log-level error)"
-fi
 
-## -- Setup History
-HISTFILE=~/.zsh-histfile
-HISTSIZE=200000000
-autoload -U up-line-or-beginning-search
-autoload -U down-line-or-beginning-search
-zle -N up-line-or-beginning-search
-zle -N down-line-or-beginning-search
-bindkey "^[[A" up-line-or-beginning-search # Up
-bindkey "^[[B" down-line-or-beginning-search # Down
-
+# =====================
+# Module: nvm Setup
+# =====================
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # Load nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # Load nvm bash_completion
+
+# =====================
+# Module: Environment and Tools
+# =====================
 export PATH="$HOME/.local/bin:$PATH"
 eval "$(zoxide init zsh)"
 
+# =====================
+# Module: fzf Setup
+# =====================
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 source <(fzf --zsh)
+# =====================
+# Module: Aliases
+# =====================
+

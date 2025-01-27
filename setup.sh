@@ -481,3 +481,4 @@ if command -v macchina >/dev/null 2>&1; then
 else
   echo "Installation failed. Please check the steps."
 fi
+
