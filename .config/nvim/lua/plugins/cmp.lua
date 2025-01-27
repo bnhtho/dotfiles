@@ -104,7 +104,6 @@ return{
                                 -- close completion menu
                                 ["<C-c>"] = cmp.mapping.close(),
                                 -- Super-tab mapping
-                                
                             }
                         }
                     )

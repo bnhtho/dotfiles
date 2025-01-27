@@ -6,29 +6,22 @@ import = [
 decorations = "buttonless"
 dynamic_padding = false
 opacity = 0.8
-
 blur = true
-
 [window.padding]
 x = 5
 y = 5
-
 [font]
 size = 15.0
 #
 [font.bold]
 family = "JetBrainsMono Nerd Font"
 style = "Heavy"
-
 [font.bold_italic]
 family = "JetBrainsMono Nerd Font"
 style = "Heavy Italic"
-
 [font.italic]
 family = "JetBrainsMono Nerd Font"
 style = "Medium Italic"
-
 [font.normal]
 family = "JetBrainsMono Nerd Font"
 style = "Medium"
-

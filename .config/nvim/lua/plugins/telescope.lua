@@ -6,7 +6,6 @@ return {
   },
   config = function()
     local telescope = require("telescope")
-
     -- Telescope setup
     telescope.setup({
       defaults = {
@@ -27,7 +26,6 @@ return {
         },
       },
     })
-
     -- Load extensions
   end,
 }

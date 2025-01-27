@@ -1,7 +1,6 @@
 local lspconfig = require("lspconfig")
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
-
 -- Keymap when LSP attached
 local keymap_lsp_attach = function(_, bufnr)
     local opts = {buffer = bufnr}
@@ -16,7 +15,6 @@ for _, server in ipairs(servers) do
         on_attach = keymap_lsp_attach
     }
 end
-
 -- Disable Virtual Text
 vim.diagnostic.config(
     {
@@ -30,7 +28,5 @@ vim.diagnostic.config(
       [vim.diagnostic.severity.INFO] = '»',
     },
   },
-	
     }
 )
-

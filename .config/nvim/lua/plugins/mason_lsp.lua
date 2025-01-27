@@ -11,8 +11,6 @@ return {
             "marksman",
             "sqlls",
             "jdtls",
-
-	
         }
     }
 }

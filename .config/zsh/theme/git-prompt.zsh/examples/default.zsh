@@ -1,8 +1,6 @@
 # Name: Default
 # Description: Same as shown in [screenshot.svg](../screenshot.svg).
-
 ZSH_GIT_PROMPT_SHOW_UPSTREAM="no"
-
 ZSH_THEME_GIT_PROMPT_PREFIX="["
 ZSH_THEME_GIT_PROMPT_SUFFIX="] "
 ZSH_THEME_GIT_PROMPT_SEPARATOR="|"
@@ -19,7 +17,6 @@ ZSH_THEME_GIT_PROMPT_UNSTAGED="%{$fg[red]%}✚"
 ZSH_THEME_GIT_PROMPT_UNTRACKED="…"
 ZSH_THEME_GIT_PROMPT_STASHED="%{$fg[blue]%}⚑"
 ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg_bold[green]%}✔"
-
 PROMPT='%B%40<..<%~ %b$(gitprompt)'
 PROMPT+='%(?.%(!.%F{white}❯%F{yellow}❯%F{red}.%F{blue}❯%F{cyan}❯%F{green})❯.%F{red}❯❯❯)%f '
 RPROMPT=''

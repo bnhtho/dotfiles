@@ -8,11 +8,9 @@ vim.keymap.set('n', '<leader>h', '<C-w>h', { desc = 'Move focus to the left wind
 vim.keymap.set('n', '<leader>j', '<C-w>j', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<leader>k', '<C-w>k', { desc = 'Move focus to the upper window' })
 vim.keymap.set('n', '<leader>l', '<C-w>l', { desc = 'Move focus to the right window' })
-
 -- Keymap: Set KJ to move line up/down in Normal/Visual Mode
 -- Select All
 vim.keymap.set('n', '<C-a>', 'gg<S-v>G')
-
 -- telescope
 vim.keymap.set('n', '<leader>f', builtin.find_files, {})
 vim.keymap.set('n', '<leader>r', builtin.live_grep, {})

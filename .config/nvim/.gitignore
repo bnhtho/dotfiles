@@ -2,35 +2,26 @@
 *.swp
 *.swo
 *.swn
-
 # Neovim backup files
 *.bak
 *.bkp
-
 # Neovim undo files
 *.un~
-
 # Neovim session files
 Session.vim
-
 # Vim's view files
 *.view
-
 # Compiled files
 *.o
 *.a
 *.out
 *.dSYM/
-
 # Node modules (if using Neovim with JS plugins)
 node_modules/
-
 # Package directories for different plugin managers (e.g., vim-plug, dein.vim, etc.)
 plugged/
 bundle/
-
 # Nvim related logs
 *.log
-
 # lazy.nvim lock file
 lazy-lock.json
