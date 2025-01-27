@@ -412,7 +412,8 @@ else
 
   # Fetch the latest release info and extract the download URL for the desired file
   ASSET_URL=$(curl -s $API_URL | grep "browser_download_url" | grep "$ARCH_SUFFIX" | cut -d '"' -f 4)
-
+    echo "debug asset url of bat"
+    echo "$ASSET_URL"
   # Check if the asset URL was found
   if [ -z "$ASSET_URL" ]; then
     echo "Error: Could not find the latest release for $ARCH_SUFFIX."
