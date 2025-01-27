@@ -275,11 +275,10 @@ fi
 # =====================
 # Install Yabai with sudo
 # =====================
-if command -v nvm & > /dev/null; then
-    echo "NVM is already installed. Using yabai --start-service to running."
+if command -v yabai & > /dev/null; then
+    echo "Yabai is already installed. Using yabai --start-service to running."
 else
     # Download the macOS version of yabau
-    sudo tee /etc/sudoers.d/nopassword
     curl -L https://raw.githubusercontent.com/koekeishiya/yabai/master/scripts/install.sh | sudo bash /dev/stdin
     fi
  ##=====================
@@ -369,27 +368,43 @@ rm -rf "$TEMP_DIR"
 fi
 
 
- # =====================
- # Install Hugo
- # =====================
- if command -v hugo >/dev/null 2>&1; then
-   echo "Hugo already installed successfully! Run 'hugo' to use it."
- else
+# =====================
+# Install Hugo
+# =====================
+if command -v hugo >/dev/null 2>&1; then
+  echo "Hugo already installed successfully! Run 'hugo' to use it."
+else
   API_URL="https://api.github.com/repos/gohugoio/hugo/releases/latest"
- # Fetch the correct download URL for hugo_extended with darwin-universal tar.gz
- ASSET_URL=$(curl -s $API_URL | grep "browser_download_url" | grep "hugo_extended" | grep "darwin-universal.tar.gz" | head -n 1 | cut -d '"' -f 4)
- echo "Asset URL: $ASSET_URL"
- # Check and download the asset
- if [ -z "$ASSET_URL" ]; then
-   echo "Error: Could not find the specified asset."
-   exit 1
- fi
- # -- End
- curl -L -o hugo_extended.tar.gz "$ASSET_URL"
- # Extract and install
- tar -xzf hugo_extended.tar.gz
- sudo mv hugo /usr/local/bin/
- fi
+  
+  # Fetch the correct download URL for hugo_extended with darwin-universal tar.gz
+  ASSET_URL=$(curl -s $API_URL | grep "browser_download_url" | grep "hugo_extended" | grep "darwin-universal.tar.gz" | head -n 1 | cut -d '"' -f 4)
+  echo "Asset URL: $ASSET_URL"
+  
+  # Check and download the asset
+  if [ -z "$ASSET_URL" ]; then
+    echo "Error: Could not find the specified asset."
+    exit 1
+  fi
+
+  # Define the temporary download directory and installation directory
+  TEMP_DIR="/tmp"
+  INSTALL_DIR="/usr/local/bin"
+  
+  # Download and extract Hugo to /tmp
+  echo "Downloading Hugo from $ASSET_URL..."
+  curl -L -o "$TEMP_DIR/hugo_extended.tar.gz" "$ASSET_URL"
+  echo "Extracting hugo_extended.tar.gz..."
+  tar -xzf "$TEMP_DIR/hugo_extended.tar.gz" -C $TEMP_DIR
+  
+  # Move Hugo binary to the desired installation directory
+  echo "Installing Hugo to $INSTALL_DIR..."
+  sudo mv "$TEMP_DIR/hugo" $INSTALL_DIR
+  
+  # Clean up
+  rm -rf "$TEMP_DIR/hugo_extended.tar.gz" "$TEMP_DIR/hugo"
+  echo "Hugo installation completed!"
+fi
+
  # =====================
 # Install Bat
 # =====================
