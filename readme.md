@@ -7,7 +7,7 @@ xcode-select --install
 
 2 - Running script 
 ```
-    curl curl -ls https://raw.githubusercontent.com/bnhtho/dotfiles/refs/heads/main/setup.sh | bash
+curl -ls https://raw.githubusercontent.com/bnhtho/dotfiles/refs/heads/main/setup.sh | bash
 ```
 
 3 - Remember to activate **yabai** and **skhd** in acessbility before starting

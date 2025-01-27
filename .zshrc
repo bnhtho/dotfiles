@@ -50,9 +50,3 @@ eval "$(zoxide init zsh)"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 source <(fzf --zsh)
-export PATH="$HOME/bin:$PATH"
-export PATH="$HOME/bin:$PATH"
-export PATH="$HOME/bin:$PATH"
-export PATH="$HOME/bin:$PATH"
-export PATH="$HOME/bin:$PATH"
-export PATH="$HOME/bin:$PATH"

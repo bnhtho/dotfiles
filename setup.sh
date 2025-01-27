@@ -1,55 +1,9 @@
 #!/bin/bash
 # =====================
-# Clone dotfiles 
-# =====================
-repo_url="https://github.com/bnhtho/dotfiles"
-target_branch_or_tag="main"
-local_dir="$HOME/.dotfiles"  # Setting local directory to $HOME/dotfiles
-
-# Check if the repository already exists
-if [ -d "$local_dir" ]; then
-    echo "Checking for updates in the repository..."
-    git -C "$local_dir" fetch origin "$target_branch_or_tag"
-    
-    # Get commit hash of local and remote branches
-    local_commit=$(git -C "$local_dir" rev-parse HEAD)
-    remote_commit=$(git -C "$local_dir" rev-parse origin/"$target_branch_or_tag")
-    
-    if [ "$local_commit" != "$remote_commit" ]; then
-        echo "New updates detected on branch '$target_branch_or_tag'."
-        
-        # Show the change log between local and remote commits
-        echo "Changes since last update:"
-        git -C "$local_dir" log --oneline "$local_commit..$remote_commit"
-        
-        # Remove the existing ~/.dotfiles and ~/.config directories before re-cloning
-        echo "Removing existing ~/.config and ~/.dotfiles directories..."
-        rm -rf "$HOME/.config" "$HOME/.dotfiles"
-        
-        # Re-clone the repository into $HOME/dotfiles
-        echo "Re-cloning the repository into $HOME/dotfiles..."
-        git -C "$HOME" clone "$repo_url" "$local_dir"
-    else
-        echo "Your local copy is up to date with the remote."
-    fi
-else
-    # Clone the repository if it doesn't exist
-    echo "Cloning the repository to $HOME/dotfiles..."
-    git clone "$repo_url" "$local_dir"
-    
-    # Optionally, you can handle the cleanup of ~/.config and ~/.dotfiles here
-    echo "Removing existing ~/.config and ~/.dotfiles directories..."
-    rm -rf "$HOME/.config" "$HOME/.dotfiles"
-    
-    # Move to the dotfiles directory and checkout the target branch/tag
-    git -C "$local_dir" checkout "$target_branch_or_tag"
-fi
-
-# =====================
 # Installing Dotfiles
 # =====================
 #!/bin/bash
-
+git clone https://github.com/bnhtho/dotfiles ~/.dotfiles
 # Define source and destination
 SRC_DIR="$HOME/.dotfiles"
 DEST_DIR="$HOME"
@@ -489,13 +443,13 @@ else
         sudo chown $(whoami):$(whoami) "$SYSTEM_BIN_DIR"
     fi
 
-    # Link skhd to /usr/local/bin for global access
-    if [ ! -f "$SYSTEM_BIN_DIR/skhd" ]; then
-        echo "Adding skhd to $SYSTEM_BIN_DIR..."
-        sudo ln -s "$INSTALL_DIR/skhd" "$SYSTEM_BIN_DIR/skhd"
-    else
-        echo "skhd is already in $SYSTEM_BIN_DIR."
-    fi
+    # Copy skhd to /usr/local/bin for global access
+	if [ ! -f "$SYSTEM_BIN_DIR/skhd" ]; then
+    echo "Copying skhd to $SYSTEM_BIN_DIR..."
+    sudo cp "$INSTALL_DIR/skhd" "$SYSTEM_BIN_DIR/skhd"
+	else
+    echo "skhd is already in $SYSTEM_BIN_DIR."
+	fi
 
     echo "skhd installation and configuration completed."
 fi
@@ -531,12 +485,6 @@ sudo mv "$TEMP_DIR/$BINARY_NAME" "$TARGET_DIR/"
 echo "Setting executable permissions..."
 chmod +x "$TARGET_DIR/$BINARY_NAME"
 
-# Add $HOME/bin to PATH if not already in PATH
-if [[ ":$PATH:" != *":$HOME/bin:"* ]]; then
-  echo "Adding $HOME/bin to PATH..."
-  echo 'export PATH="$HOME/bin:$PATH"' >> "$HOME/.zshrc" # Adjust for your shell, e.g., .zshrc for Zsh
-  export PATH="$HOME/bin:$PATH"
-fi
 
 # Clean up
 echo "Cleaning up temporary files..."
