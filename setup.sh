@@ -362,17 +362,16 @@ else
 fi
 
 # =====================
-# Install Yabai
+# Install Yabai with sudo
 # =====================
-
 if command -v yabai &> /dev/null; then
-    echo "Yabai installed ! Skip."
+    echo "Yabai is already installed! Skipping installation."
 else
-    # Install yabai if it's not found
-curl -L https://raw.githubusercontent.com/koekeishiya/yabai/master/scripts/install.sh | sh /dev/stdin
+    echo "Installing Yabai..."
+    curl -L https://raw.githubusercontent.com/koekeishiya/yabai/master/scripts/install.sh | sudo sh /dev/stdin
 fi
 
-#!/bin/bash
+
 
 # =====================
 # Install Visual Studio Code
