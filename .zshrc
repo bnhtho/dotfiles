@@ -16,7 +16,7 @@ source ~/.dotfiles/.config/zsh/configs/autosuggestion/zsh-autosuggestions.plugin
 # =====================
 # Module: Syntax highlight
 # =====================
-source ~/.dotfiles/.config/zsh/configs/fast-syntax/fast-syntax-highlighting.plugin.zsh
+source ~/.dotfiles/.config/zsh/configs/highlight/fast-syntax-highlighting.plugin.zsh
 # Module: Theme Setup
 # =====================
 # Uncomment to use the cypher theme
