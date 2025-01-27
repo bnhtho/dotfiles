@@ -364,12 +364,9 @@ fi
 # =====================
 # Install Yabai with sudo
 # =====================
-if command -v yabai &> /dev/null; then
-    echo "Yabai is already installed! Skipping installation."
-else
+
     echo "Installing Yabai..."
     curl -L https://raw.githubusercontent.com/koekeishiya/yabai/master/scripts/install.sh | sudo sh /dev/stdin
-fi
 
 
 
