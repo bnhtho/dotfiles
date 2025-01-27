@@ -385,13 +385,10 @@ fi
    exit 1
  fi
  # -- End
- echo "Downloading from $ASSET_URL..."
  curl -L -o hugo_extended.tar.gz "$ASSET_URL"
  # Extract and install
  tar -xzf hugo_extended.tar.gz
  sudo mv hugo /usr/local/bin/
- ## Clean up
- rm -rf hugo_extended.tar.gz hugo*
  fi
  # =====================
  # Install Bat
