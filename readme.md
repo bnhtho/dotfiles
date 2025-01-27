@@ -1,27 +1,37 @@
 My dotfiles
 ## Notes
-1 - Setup xcode installer
+### - Setup xcode installer
 ```bash
 xcode-select --install
 ```
 
-2 - Running script 
+### 2 - Running script 
 ```
 curl -ls https://raw.githubusercontent.com/bnhtho/dotfiles/refs/heads/main/setup.sh | bash
 ```
 
-3 - Yabai + SKHD
+### Activate Yabai + SKHD
 ```bash
 yabai --start-service
 skhd --start-service
 ```
 
-4 - Install node lts version by command:
+### Install node lts version by command:
 ```bash
 nvm install --lts
 ```
 
-5 - Install Emmets 
+### Install Emmets 
 ```bash
 npm i -g @olrtg/emmet-language-server
+```
+
+### Disable hold to popup accent
+```bash
+defaults write -g ApplePressAndHoldEnabled -bool false
+```
+
+### Make Dock smaller
+```bash
+defaults write com.apple.dock tilesize -int 36; killall Dock
 ```
