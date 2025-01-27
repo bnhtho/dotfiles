@@ -338,7 +338,8 @@ fi
 # =====================
 
 echo "Installing FZF"
-
+TARGET_DIR="/usr/local/bin"
+chmod +x "$TARGET_DIR"
 # Check if FZF is already installed
 if command -v fzf &> /dev/null; then
     echo "fzf is already installed. Skipping installation."
