@@ -46,19 +46,44 @@ else
 fi
 
 # =====================
-# Symlink
+# Installing Dotfiles
 # =====================
-cd ~/.dotfiles
-for file in .[^.]* *; do
-  # Exclude .git directory
-  if [[ "$file" == ".git" ]]; then
-    continue
-  fi
-	
-  # Symlink files/directories to $HOME
-  ln -sf "$(pwd)/$file" "$HOME/$file"
+#!/bin/bash
+
+# Define source and destination
+SRC_DIR="$HOME/.dotfiles"
+DEST_DIR="$HOME"
+
+# Files to copy
+FILES_TO_COPY=(
+  ".gitconfig"
+  ".zshrc"
+)
+
+# Directories to symlink
+DIRS_TO_SYMLINK=(
+  ".config"
+)
+
+# Copy files
+for FILE in "${FILES_TO_COPY[@]}"; do
+  SRC="$SRC_DIR/$FILE"
+  DEST="$DEST_DIR/$FILE"
+
+  echo "Copying $SRC to $DEST"
+  cp "$SRC" "$DEST"
 done
 
+# Create symlinks
+for DIR in "${DIRS_TO_SYMLINK[@]}"; do
+  SRC="$SRC_DIR/$DIR"
+  DEST="$DEST_DIR/$DIR"
+
+  echo "Creating symlink from $SRC to $DEST"
+  ln -snf "$SRC" "$DEST"
+done
+
+echo "Dotfiles setup completed!"
 
 # =====================
 # Install Firefox
@@ -484,7 +509,7 @@ fi
 # Define variables
 URL="https://github.com/Macchina-CLI/macchina/releases/download/v6.4.0/macchina-v6.4.0-macos-x86_64.tar.gz"
 TEMP_DIR="/tmp/macchina_install"
-TARGET_DIR="$HOME/bin"
+TARGET_DIR="/usr/local/bin"
 BINARY_NAME="macchina"
 
 # Create necessary directories
@@ -500,7 +525,7 @@ tar -xzf "$TEMP_DIR/macchina.tar.gz" -C "$TEMP_DIR"
 
 # Move the binary to the local bin directory
 echo "Installing macchina to $TARGET_DIR..."
-mv "$TEMP_DIR/$BINARY_NAME" "$TARGET_DIR/"
+sudo mv "$TEMP_DIR/$BINARY_NAME" "$TARGET_DIR/"
 
 # Make it executable
 echo "Setting executable permissions..."
