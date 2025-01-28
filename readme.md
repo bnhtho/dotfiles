@@ -52,6 +52,7 @@ defaults write com.apple.dock tilesize -int 36; killall Dock
 ```
 ### Multipass (Ubuntu VM)
 ```bash
-curl -ls https://raw.githubusercontent.com/bnhtho/dotfiles/67753bb6bf33adf07468cc3a438937843c2b278b/multipass.sh | bash
+# execute this script to install multipass
+sh multipass.sh
 ```
 If facing error "No instance found", turn off terminal and run the script again
