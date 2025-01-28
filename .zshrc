@@ -55,10 +55,16 @@ export NVM_DIR="$HOME/.nvm"
 export PATH="$HOME/.local/bin:$PATH"
 eval "$(zoxide init zsh)"
 # =====================
-# Module: fzf Setup
+# module: fzf setup
 # =====================
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 source <(fzf --zsh)
 # =====================
+# =====================
+# module: x-cmd
+[ ! -f "$HOME/.x-cmd.root/X" ] || . "$HOME/.x-cmd.root/X" # boot up x-cmd.
+# =====================
 # Module: Aliases
 # =====================
+alias ls="x eza"
+alias fastfetch="x fastfetch"
