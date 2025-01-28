@@ -155,7 +155,7 @@ fi
  ##Install NVM
  ##=====================
 # Check if script installed
-if command -v nvm & > /dev/null; then
+if command -v nvm &> /dev/null; then
     echo "Nvm is already installed. Using nvm command to execute."
 else
     # Download the macOS version of nvm
