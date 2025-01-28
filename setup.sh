@@ -155,15 +155,11 @@ fi
  ##Install NVM
  ##=====================
 # Check if script installed
-if command -v nvm &> /dev/null; then
-    echo "Nvm is already installed. Using nvm command to execute."
-else
     # Download the macOS version of nvm
    	curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
 	echo "Finished installing nvm. Reopen terminal after finished setup process to install nodes"
 	## source ~/bashrc
     cd ~/.
-fi
 # =====================
 # Font Install
 # =====================

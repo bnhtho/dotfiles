@@ -1,5 +1,20 @@
 My dotfiles
+## List apps and package 
+![Image](https://i.imgur.com/7xesJ7l.png) 
+| Package | What do to |
+| -------------- | --------------- |
+| Firefox | Browser |
+| nvm | Node package manager |
+| yabai | Windows manager |
+| skhd | Hotkey Daemon |
+| Hugo | Static page framework |
+| Neovim | IDE |
+| VS Code | Text editor |
+| zoxide | Fast navigator |
+| macchina | Show information |
+
 ## Notes
+
 ### Setup xcode installer
 ```bash
 xcode-select --install
