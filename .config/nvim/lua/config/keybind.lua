@@ -1,5 +1,5 @@
 -- Keybind
-local builtin = require('telescope.builtin')
+-- local builtin = require('telescope.builtin')
 -- Buffer
 vim.keymap.set('n', 'L', '<cmd>:bnext<Cr>', { desc = 'Next Buffer' })
 vim.keymap.set('n', 'H', '<cmd>:bprevious<Cr>', { desc = 'Previous Buffer' })
@@ -11,7 +11,7 @@ vim.keymap.set('n', '<leader>l', '<C-w>l', { desc = 'Move focus to the right win
 -- Keymap: Set KJ to move line up/down in Normal/Visual Mode
 -- Select All
 vim.keymap.set('n', '<C-a>', 'gg<S-v>G')
--- telescope
-vim.keymap.set('n', '<leader>f', builtin.find_files, {})
-vim.keymap.set('n', '<leader>r', builtin.live_grep, {})
-vim.keymap.set('n', '<leader>o', builtin.oldfiles,{})
+-- -- telescope
+-- vim.keymap.set('n', '<leader>f', builtin.find_files, {})
+-- vim.keymap.set('n', '<leader>r', builtin.live_grep, {})
+-- vim.keymap.set('n', '<leader>o', builtin.oldfiles,{})
