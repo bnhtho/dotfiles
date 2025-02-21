@@ -28,5 +28,6 @@ return {
         { "gy",         function() Snacks.picker.lsp_type_definitions() end, desc = "Goto T[y]pe Definition" },
         { "<leader>sb", function() Snacks.picker.lines() end,             desc = "Buffer Lines" },
         { "<leader>sC", function() Snacks.picker.commands() end,          desc = "Commands" },
+		    { "<leader>sH", function() Snacks.picker.highlights() end, desc = "Highlights" },
     }
 }

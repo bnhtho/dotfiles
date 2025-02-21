@@ -17,28 +17,7 @@ return {
           "                                                       ",
         },
         center = {
-          {
-            desc = 'Old files',
-            desc_hl = 'group',
-            key_hl = 'group',
-            key_format = ' [%s]', -- `%s` will be substituted with value of `key`
-            action = 'Telescope oldfiles',
-          },
-          {
-            desc = 'Find files',
-            desc_hl = 'group',
-            key_hl = 'group',
-            key_format = ' [%s]', -- `%s` will be substituted with value of `key`
-            action = 'Telescope find_files',
-          },
-          {
-            desc = 'Search String',
-            desc_hl = 'group',
-            key_hl = 'group',
-            key_format = ' [%s]', -- `%s` will be substituted with value of `key`
-            action = 'Telescope live_grep',
-          },
-          {
+         {
             desc = 'Quit',
             desc_hl = 'group',
             key_hl = 'group',
